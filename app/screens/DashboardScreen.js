@@ -4,10 +4,10 @@ import { StyleSheet, Text } from "react-native";
 import { AppColors, AppSpacing, AppSizes } from "../config";
 import { AppScreen } from "../components/AppScreen";
 
-export const TimerScreen = () => {
+export const DashboardScreen = () => {
   return (
     <AppScreen style={styles.container}>
-      <Text style={styles.text}>Timer Screen</Text>
+      <Text style={styles.text}>Dashboard Screen</Text>
     </AppScreen>
   );
 };

@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { AppColors, AppSpacing, AppSizes } from "../config";
 import { NavigationConstants } from "./NavigationCostants";
 import { ProfileScreen } from "../screens/ProfileScreen";
-import { TimerScreen } from "../screens/TimerScreen";
+import { DashboardScreen } from "../screens/DashboardScreen";
 import { RevenuesScreen } from "../screens/RevenuesScreen";
 
 const Tab = createBottomTabNavigator();
@@ -14,6 +14,7 @@ const Tab = createBottomTabNavigator();
 export const AppNavigator = () => {
   return (
     <Tab.Navigator
+      initialRouteName={NavigationConstants.DASHBOARD_SCREEN}
       tabBarOptions={{
         activeTintColor: AppColors.primary,
         inactiveTintColor: AppColors.medium,
@@ -29,11 +30,15 @@ export const AppNavigator = () => {
         }}
       />
       <Tab.Screen
-        name={NavigationConstants.TIMER_SCREEN}
-        component={TimerScreen}
+        name={NavigationConstants.DASHBOARD_SCREEN}
+        component={DashboardScreen}
         options={{
           tabBarIcon: ({ size, color }) => (
-            <MaterialCommunityIcons name="timer" size={size} color={color} />
+            <MaterialCommunityIcons
+              name="view-dashboard"
+              size={size}
+              color={color}
+            />
           ),
         }}
       />

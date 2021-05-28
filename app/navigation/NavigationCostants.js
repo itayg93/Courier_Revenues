@@ -4,5 +4,5 @@ export const NavigationConstants = {
   REGISTER_SCREEN: "Register",
   PROFILE_SCREEN: "Profile",
   REVENUES_SCREEN: "Revenues",
-  TIMER_SCREEN: "Timer",
+  DASHBOARD_SCREEN: "Dashboard",
 };
