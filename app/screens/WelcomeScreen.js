@@ -5,6 +5,7 @@ import { Button } from "react-native-paper";
 
 import { AppColors, AppSpacing, AppSizes } from "../config";
 import { AppScreen } from "../components/AppScreen";
+import { NavigationConstants } from "../navigation/NavigationCostants";
 
 export const WelcomeScreen = ({ navigation }) => {
   return (
@@ -13,14 +14,14 @@ export const WelcomeScreen = ({ navigation }) => {
       <Button
         style={styles.loginBtn}
         mode="contained"
-        onPress={() => navigation.navigate("Login")}
+        onPress={() => navigation.navigate(NavigationConstants.LOGIN_SCREEN)}
       >
         Login
       </Button>
       <Button
         style={styles.registerBtn}
         mode="contained"
-        onPress={() => navigation.navigate("Register")}
+        onPress={() => navigation.navigate(NavigationConstants.REGISTER_SCREEN)}
       >
         Register
       </Button>
