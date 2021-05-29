@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
     padding: AppSpacing.m,
   },
   text: {
-    position: "absolute",
     alignSelf: "center",
   },
 });

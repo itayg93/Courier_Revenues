@@ -7,6 +7,7 @@ import { AppColors, AppSpacing, AppSizes } from "../config";
 import { NavigationConstants } from "./NavigationCostants";
 import { ProfileScreen } from "../screens/ProfileScreen";
 import { DashboardScreen } from "../screens/DashboardScreen";
+import { DashboardNavigator } from "./DashboardNavigator";
 import { RevenuesScreen } from "../screens/RevenuesScreen";
 
 const Tab = createBottomTabNavigator();
@@ -31,7 +32,7 @@ export const AppNavigator = () => {
       />
       <Tab.Screen
         name={NavigationConstants.DASHBOARD_SCREEN}
-        component={DashboardScreen}
+        component={DashboardNavigator}
         options={{
           tabBarIcon: ({ size, color }) => (
             <MaterialCommunityIcons

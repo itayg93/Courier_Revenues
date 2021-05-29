@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   text: {
-    position: "absolute",
     top: AppSpacing.xl,
+    position: "absolute",
     alignSelf: "center",
   },
   loginBtn: {
