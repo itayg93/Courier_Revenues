@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 
@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import { AppColors, AppSpacing, AppSizes } from "../config";
 import { AppScreen } from "../components/AppScreen";
 
-import firebase from "firebase";
+import { login } from "../api/AppFirebseApi";
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label("Email"),
@@ -16,20 +16,15 @@ const validationSchema = Yup.object().shape({
 });
 
 export const LoginScreen = () => {
-  function loginUser(values) {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(values.email, values.password)
-      .then()
-      .catch((error) => console.log(error));
-  }
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <AppScreen style={styles.container}>
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
-          loginUser(values);
+          setIsLoading(true);
+          login(values, setIsLoading);
         }}
       >
         {({
@@ -71,6 +66,7 @@ export const LoginScreen = () => {
               style={styles.loginBtn}
               mode="contained"
               onPress={handleSubmit}
+              loading={isLoading}
             >
               Login
             </Button>

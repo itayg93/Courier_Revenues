@@ -6,7 +6,7 @@ import { AppColors, AppSpacing, AppSizes } from "../config";
 import { AppScreen } from "../components/AppScreen";
 import { NavigationConstants } from "../navigation/NavigationCostants";
 
-import firebase from "firebase";
+import { logout } from "../api/AppFirebseApi";
 
 export const DashboardScreen = ({ navigation }) => {
   return (
@@ -36,7 +36,7 @@ export const DashboardScreen = ({ navigation }) => {
           icon="logout"
           mode="contained"
           onPress={() => {
-            firebase.auth().signOut().then();
+            logout();
           }}
         >
           Logout

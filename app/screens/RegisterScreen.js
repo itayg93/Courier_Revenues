@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 
@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import { AppColors, AppSpacing, AppSizes } from "../config";
 import { AppScreen } from "../components/AppScreen";
 
-import firebase from "firebase";
+import { register } from "../api/AppFirebseApi";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().label("Name"),
@@ -17,28 +17,15 @@ const validationSchema = Yup.object().shape({
 });
 
 export const RegisterScreen = () => {
-  function registerNewUser(values) {
-    firebase
-      .auth()
-      .createUserWithEmailAndPassword(values.email, values.password)
-      .then(() => {
-        firebase
-          .auth()
-          .currentUser.updateProfile({
-            displayName: values.name,
-          })
-          .then()
-          .catch((error) => console.log(error));
-      })
-      .catch((error) => console.log(error));
-  }
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <AppScreen style={styles.container}>
       <Formik
         initialValues={{ name: "", email: "", password: "" }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
-          registerNewUser(values);
+          setIsLoading(true);
+          register(values, setIsLoading);
         }}
       >
         {({
@@ -91,6 +78,7 @@ export const RegisterScreen = () => {
               style={styles.registerBtn}
               mode="contained"
               onPress={handleSubmit}
+              loading={isLoading}
             >
               Register
             </Button>
@@ -115,6 +103,6 @@ const styles = StyleSheet.create({
   },
   registerBtn: {
     marginTop: AppSpacing.xl,
-    backgroundColor: AppColors.primary,
+    backgroundColor: AppColors.secondary,
   },
 });
