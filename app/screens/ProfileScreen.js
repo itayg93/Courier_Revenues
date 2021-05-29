@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -8,13 +8,21 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
 } from "react-native";
-import { Avatar, TextInput, Button, Switch } from "react-native-paper";
+import {
+  Avatar,
+  TextInput,
+  Button,
+  Switch,
+  ActivityIndicator,
+} from "react-native-paper";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
 
 import { AppColors, AppSpacing, AppSizes } from "../config";
 import { AppScreen } from "../components/AppScreen";
+
+import { fetchUserProfile } from "../api/AppFirebseApi";
 
 import { AuthContext } from "../auth/AuthContext";
 
@@ -27,11 +35,39 @@ const validationSchema = Yup.object().shape({
 });
 
 export const ProfileScreen = () => {
+  const [initializing, setInitializing] = useState(true);
+  //
   const { user } = useContext(AuthContext);
-  const { displayName, email } = user;
+  const { displayName, email, uid } = user;
+  //
+  const [userProfile, setUserProfile] = useState({});
+  //
   const [isLoading, setIsLoading] = useState(false);
+  //
   const [isSubmitExpenses, setIsSubmitExpenses] = useState(false);
   const onToggleSwitch = () => setIsSubmitExpenses(!isSubmitExpenses);
+  //
+  const loadUserProfile = async () => {
+    const newUserProfile = await fetchUserProfile(uid);
+    setIsSubmitExpenses(newUserProfile.isSubmitExpenses);
+    setUserProfile(newUserProfile);
+    if (initializing) setInitializing(false);
+  };
+  useEffect(() => {
+    loadUserProfile();
+  }, []);
+
+  if (initializing)
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator
+          animating={initializing}
+          size="large"
+          color={AppColors.secondary}
+        />
+      </View>
+    );
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -49,7 +85,6 @@ export const ProfileScreen = () => {
                 <Text style={styles.email}>{email}</Text>
               </View>
             </View>
-
             {/** is submit expenses */}
             <View style={styles.isSubmitExpensesContainer}>
               <Text style={styles.isSubmitExpenesText}>Submit Expenses?</Text>
@@ -62,11 +97,11 @@ export const ProfileScreen = () => {
             {/** tax, commission and insurances */}
             <Formik
               initialValues={{
-                taxPoints: "",
-                commissionRate: "",
-                compulsoryInsurance: "",
-                collateralInsurance: "",
-                personalInsurance: "",
+                taxPoints: userProfile.taxPoints,
+                commissionRate: userProfile.commissionRate,
+                compulsoryInsurance: userProfile.compulsoryInsurance,
+                collateralInsurance: userProfile.collateralInsurance,
+                personalInsurance: userProfile.personalInsurance,
               }}
               validationSchema={validationSchema}
               onSubmit={(values) => {
