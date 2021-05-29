@@ -6,6 +6,8 @@ import { NavigationTheme } from "./app/navigation/NavigationTheme";
 import { AuthNavigator } from "./app/navigation/AuthNavigator";
 import { AppNavigator } from "./app/navigation/AppNavigator";
 
+import { AuthContext } from "./app/auth/AuthContext";
+
 import firebase from "firebase";
 
 var firebaseConfig = {
@@ -36,8 +38,10 @@ export default function App() {
   if (initializing) return null;
 
   return (
-    <NavigationContainer theme={NavigationTheme}>
-      {user ? <AppNavigator /> : <AuthNavigator />}
-    </NavigationContainer>
+    <AuthContext.Provider value={{ user, setUser }}>
+      <NavigationContainer theme={NavigationTheme}>
+        {user ? <AppNavigator /> : <AuthNavigator />}
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 }
