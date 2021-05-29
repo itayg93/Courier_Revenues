@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
-import { StyleSheet, View, Text, ScrollView } from "react-native";
-import { Avatar, TextInput, Button, Switch, FAB } from "react-native-paper";
+import { StyleSheet, View, Text } from "react-native";
+import { Avatar, TextInput, Button, Switch } from "react-native-paper";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -35,44 +35,46 @@ export const ProfileScreen = () => {
           <Text style={styles.email}>{email}</Text>
         </View>
       </View>
-      {/** input container */}
-      <ScrollView>
-        {/** is submit expenses */}
-        <View style={styles.isSubmitExpensesContainer}>
-          <Text style={styles.isSubmitExpenesText}>Submit Expenses?</Text>
-          <Switch
-            value={isSubmitExpenses}
-            onValueChange={onToggleSwitch}
-            color={AppColors.primary}
-          />
-        </View>
-        {/** tax, commission and insurances */}
-        <Formik
-          initialValues={{
-            taxPoints: "",
-            commissionRate: "",
-            compulsoryInsurance: "",
-            collateralInsurance: "",
-            personalInsurance: "",
-          }}
-          validationSchema={validationSchema}
-          onSubmit={(values) => {
-            setIsLoading(true);
-            // call firestore func
-          }}
-        >
-          {({
-            handleChange,
-            handleSubmit,
-            values,
-            setFieldTouched,
-            touched,
-            errors,
-          }) => (
-            <>
+      {/** is submit expenses */}
+      <View style={styles.isSubmitExpensesContainer}>
+        <Text style={styles.isSubmitExpenesText}>Submit Expenses?</Text>
+        <Switch
+          value={isSubmitExpenses}
+          onValueChange={onToggleSwitch}
+          color={AppColors.primary}
+        />
+      </View>
+      {/** tax, commission and insurances */}
+      <Formik
+        initialValues={{
+          taxPoints: "",
+          commissionRate: "",
+          compulsoryInsurance: "",
+          collateralInsurance: "",
+          personalInsurance: "",
+        }}
+        validationSchema={validationSchema}
+        onSubmit={(values) => {
+          setIsLoading(true);
+          // call firestore func
+          console.log(isSubmitExpenses);
+          console.log(values);
+        }}
+      >
+        {({
+          handleChange,
+          handleSubmit,
+          values,
+          setFieldTouched,
+          touched,
+          errors,
+        }) => (
+          <>
+            {/** tax points and commission rate */}
+            <View style={styles.taxPointsAndCommissionRateContainer}>
               {/** tax */}
               <TextInput
-                style={styles.textInput}
+                style={styles.taxPointsInput}
                 label="Tax Points"
                 onChangeText={handleChange("taxPoints")}
                 onBlur={() => setFieldTouched("taxPoints")}
@@ -85,7 +87,7 @@ export const ProfileScreen = () => {
               ) : null}
               {/** commission */}
               <TextInput
-                style={styles.textInput}
+                style={styles.commissionRateInput}
                 label="Commission Rate"
                 onChangeText={handleChange("commissionRate")}
                 onBlur={() => setFieldTouched("commissionRate")}
@@ -98,66 +100,65 @@ export const ProfileScreen = () => {
                   {errors["commissionRate"]}
                 </Text>
               ) : null}
-              <Text style={styles.insurancesTitle}>Insurances</Text>
-              {/** compulsory */}
-              <TextInput
-                //style={styles.textInput}
-                label="Compulsory Insurance"
-                onChangeText={handleChange("compulsoryInsurance")}
-                onBlur={() => setFieldTouched("compulsoryInsurance")}
-                value={values.compulsoryInsurance}
-                keyboardType="numeric"
-                autoCorrect={false}
-              />
-              {errors["compulsoryInsurance"] &&
-              touched["compulsoryInsurance"] ? (
-                <Text style={styles.errorMessage}>
-                  {errors["compulsoryInsurance"]}
-                </Text>
-              ) : null}
-              {/** collateral */}
-              <TextInput
-                style={styles.textInput}
-                label="Collateral Insurance"
-                onChangeText={handleChange("collateralInsurance")}
-                onBlur={() => setFieldTouched("collateralInsurance")}
-                value={values.collateralInsurance}
-                keyboardType="numeric"
-                autoCorrect={false}
-              />
-              {errors["collateralInsurance"] &&
-              touched["collateralInsurance"] ? (
-                <Text style={styles.errorMessage}>
-                  {errors["collateralInsurance"]}
-                </Text>
-              ) : null}
-              {/** personal */}
-              <TextInput
-                style={styles.textInput}
-                label="Personal Insurance"
-                onChangeText={handleChange("personalInsurance")}
-                onBlur={() => setFieldTouched("personalInsurance")}
-                value={values.personalInsurance}
-                keyboardType="numeric"
-                autoCorrect={false}
-              />
-              {errors["personalInsurance"] && touched["personalInsurance"] ? (
-                <Text style={styles.errorMessage}>
-                  {errors["personalInsurance"]}
-                </Text>
-              ) : null}
-              <Button
-                style={styles.updateBtn}
-                mode="contained"
-                onPress={handleSubmit}
-                loading={isLoading}
-              >
-                Update
-              </Button>
-            </>
-          )}
-        </Formik>
-      </ScrollView>
+            </View>
+            {/** insurances */}
+            <Text style={styles.insurancesTitle}>Insurances</Text>
+            {/** compulsory */}
+            <TextInput
+              label="Compulsory Insurance"
+              onChangeText={handleChange("compulsoryInsurance")}
+              onBlur={() => setFieldTouched("compulsoryInsurance")}
+              value={values.compulsoryInsurance}
+              keyboardType="numeric"
+              autoCorrect={false}
+            />
+            {errors["compulsoryInsurance"] && touched["compulsoryInsurance"] ? (
+              <Text style={styles.errorMessage}>
+                {errors["compulsoryInsurance"]}
+              </Text>
+            ) : null}
+            {/** collateral */}
+            <TextInput
+              style={styles.textInput}
+              label="Collateral Insurance"
+              onChangeText={handleChange("collateralInsurance")}
+              onBlur={() => setFieldTouched("collateralInsurance")}
+              value={values.collateralInsurance}
+              keyboardType="numeric"
+              autoCorrect={false}
+            />
+            {errors["collateralInsurance"] && touched["collateralInsurance"] ? (
+              <Text style={styles.errorMessage}>
+                {errors["collateralInsurance"]}
+              </Text>
+            ) : null}
+            {/** personal */}
+            <TextInput
+              style={styles.textInput}
+              label="Personal Insurance"
+              onChangeText={handleChange("personalInsurance")}
+              onBlur={() => setFieldTouched("personalInsurance")}
+              value={values.personalInsurance}
+              keyboardType="numeric"
+              autoCorrect={false}
+            />
+            {errors["personalInsurance"] && touched["personalInsurance"] ? (
+              <Text style={styles.errorMessage}>
+                {errors["personalInsurance"]}
+              </Text>
+            ) : null}
+            {/** update btn */}
+            <Button
+              style={styles.updateBtn}
+              mode="contained"
+              onPress={handleSubmit}
+              loading={isLoading}
+            >
+              Update
+            </Button>
+          </>
+        )}
+      </Formik>
     </AppScreen>
   );
 };
@@ -194,9 +195,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   isSubmitExpenesText: {
-    marginRight: AppSpacing.m,
+    flex: 1,
     fontWeight: "bold",
     fontSize: AppSizes.m,
+  },
+  taxPointsAndCommissionRateContainer: {
+    flexDirection: "row",
+    marginTop: AppSpacing.m,
+  },
+  taxPointsInput: {
+    flex: 1,
+    marginRight: AppSpacing.s,
+  },
+  commissionRateInput: {
+    flex: 1,
+    marginLeft: AppSpacing.s,
   },
   textInput: {
     marginTop: AppSpacing.m,
@@ -209,7 +222,7 @@ const styles = StyleSheet.create({
   insurancesTitle: {
     fontWeight: "bold",
     fontSize: AppSizes.xl,
-    marginVertical: AppSpacing.m,
+    marginVertical: AppSpacing.l,
   },
   updateBtn: {
     backgroundColor: AppColors.primary,
