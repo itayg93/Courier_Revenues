@@ -6,6 +6,8 @@ import { AppColors, AppSpacing, AppSizes } from "../config";
 import { AppScreen } from "../components/AppScreen";
 import { NavigationConstants } from "../navigation/NavigationCostants";
 
+import firebase from "firebase";
+
 export const DashboardScreen = ({ navigation }) => {
   return (
     <AppScreen style={styles.container}>
@@ -28,6 +30,16 @@ export const DashboardScreen = ({ navigation }) => {
           onPress={() => navigation.navigate(NavigationConstants.STATS_SCREEN)}
         >
           Stats
+        </Button>
+        <Button
+          style={styles.btn}
+          icon="logout"
+          mode="contained"
+          onPress={() => {
+            firebase.auth().signOut().then();
+          }}
+        >
+          Logout
         </Button>
       </View>
       <FAB
