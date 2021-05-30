@@ -22,7 +22,7 @@ import * as Yup from "yup";
 import { AppColors, AppSpacing, AppSizes } from "../config";
 import { AppScreen } from "../components/AppScreen";
 
-import { fetchUserProfile } from "../api/AppFirebseApi";
+import { fetchUserProfile, updateUserProfile } from "../api/AppFirebseApi";
 
 import { AuthContext } from "../auth/AuthContext";
 
@@ -97,18 +97,21 @@ export const ProfileScreen = () => {
             {/** tax, commission and insurances */}
             <Formik
               initialValues={{
-                taxPoints: userProfile.taxPoints,
-                commissionRate: userProfile.commissionRate,
-                compulsoryInsurance: userProfile.compulsoryInsurance,
-                collateralInsurance: userProfile.collateralInsurance,
-                personalInsurance: userProfile.personalInsurance,
+                taxPoints: userProfile.taxPoints.toString(),
+                commissionRate: userProfile.commissionRate.toString(),
+                compulsoryInsurance: userProfile.compulsoryInsurance.toString(),
+                collateralInsurance: userProfile.collateralInsurance.toString(),
+                personalInsurance: userProfile.personalInsurance.toString(),
               }}
               validationSchema={validationSchema}
               onSubmit={(values) => {
                 setIsLoading(true);
-                // call firestore func
-                console.log(isSubmitExpenses);
-                console.log(values);
+                Keyboard.dismiss();
+                updateUserProfile(
+                  uid,
+                  { isSubmitExpenses, ...values },
+                  setIsLoading
+                );
               }}
             >
               {({

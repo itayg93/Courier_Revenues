@@ -53,10 +53,9 @@ export const register = (values, setIsLoading) => {
 export const createInitialUserProfile = (userUid) => {
   firebase
     .firestore()
-    .collection(AppFirebaseConstants.USERS_DATA)
-    .doc(userUid)
-    .collection(AppFirebaseConstants.PROFILE)
-    .add({
+    .collection(userUid)
+    .doc(AppFirebaseConstants.PROFILE)
+    .set({
       isSubmitExpenses: false,
       taxPoints: 2.25,
       commissionRate: 5,
@@ -72,33 +71,42 @@ export const createInitialUserProfile = (userUid) => {
 
 export const fetchUserProfile = async (userUid) => {
   try {
-    const userProfile = [];
     var querySnapshot = await firebase
       .firestore()
-      .collection(AppFirebaseConstants.USERS_DATA)
-      .doc(userUid)
-      .collection(AppFirebaseConstants.PROFILE)
+      .collection(userUid)
+      .doc(AppFirebaseConstants.PROFILE)
       .get();
-    querySnapshot.forEach((doc) => {
-      const {
-        isSubmitExpenses,
-        taxPoints,
-        commissionRate,
-        compulsoryInsurance,
-        collateralInsurance,
-        personalInsurance,
-      } = doc.data();
-      userProfile.push({
-        isSubmitExpenses,
-        taxPoints: taxPoints.toString(),
-        commissionRate: commissionRate.toString(),
-        compulsoryInsurance: compulsoryInsurance.toString(),
-        collateralInsurance: collateralInsurance.toString(),
-        personalInsurance: personalInsurance.toString(),
-      });
-    });
-    return userProfile[0];
+    return ({
+      isSubmitExpenses,
+      taxPoints,
+      commissionRate,
+      compulsoryInsurance,
+      collateralInsurance,
+      personalInsurance,
+    } = querySnapshot.data());
   } catch (error) {
     console.log(error);
   }
+};
+
+export const updateUserProfile = (userUid, values, setIsLoading) => {
+  firebase
+    .firestore()
+    .collection(userUid)
+    .doc(AppFirebaseConstants.PROFILE)
+    .set({
+      isSubmitExpenses: values.isSubmitExpenses,
+      taxPoints: values.taxPoints,
+      commissionRate: values.commissionRate,
+      compulsoryInsurance: values.compulsoryInsurance,
+      collateralInsurance: values.collateralInsurance,
+      personalInsurance: values.personalInsurance,
+    })
+    .then(() => {
+      setIsLoading(false);
+    })
+    .catch((error) => {
+      setIsLoading(false);
+      console.log(error);
+    });
 };
