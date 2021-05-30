@@ -18,5 +18,6 @@ const styles = StyleSheet.create({
   },
   text: {
     alignSelf: "center",
+    marginTop: AppSpacing.s,
   },
 });
