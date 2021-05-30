@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, Keyboard } from "react-native";
 import { TextInput, Button } from "react-native-paper";
 
 import { Formik } from "formik";
@@ -24,6 +24,7 @@ export const RegisterScreen = () => {
         initialValues={{ name: "", email: "", password: "" }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
+          Keyboard.dismiss();
           setIsLoading(true);
           register(values, setIsLoading);
         }}

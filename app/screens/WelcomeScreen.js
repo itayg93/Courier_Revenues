@@ -1,6 +1,5 @@
 import React from "react";
-import { StyleSheet, Text } from "react-native";
-
+import { StyleSheet, Text, View } from "react-native";
 import { Button } from "react-native-paper";
 
 import { AppColors, AppSpacing, AppSizes } from "../config";
@@ -35,9 +34,10 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
   },
   text: {
-    top: AppSpacing.xl,
     position: "absolute",
+    top: 0,
     alignSelf: "center",
+    marginTop: AppSpacing.xl,
   },
   loginBtn: {
     backgroundColor: AppColors.primary,

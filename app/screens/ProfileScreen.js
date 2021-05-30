@@ -75,7 +75,7 @@ export const ProfileScreen = () => {
     >
       <AppScreen style={styles.container}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={{ flex: 1 }}>
+          <View style={{ flex: 1, justifyContent: "flex-end" }}>
             <Text style={styles.text}>Profile Screen</Text>
             {/** profile */}
             <View style={styles.profileDetailsContainer}>
@@ -217,6 +217,7 @@ export const ProfileScreen = () => {
                 </>
               )}
             </Formik>
+            <View style={{ flex: 1 }}></View>
           </View>
         </TouchableWithoutFeedback>
       </AppScreen>
