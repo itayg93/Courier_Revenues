@@ -7,13 +7,22 @@ import { AppFirebaseConstants } from "./AppFirebseConstants";
 
 // auth
 
-export const login = (values, setIsLoading) => {
+export const login = (values, setIsLoading, setError, setVisible) => {
   firebase
     .auth()
     .signInWithEmailAndPassword(values.email, values.password)
     .then(() => {})
     .catch((error) => {
       setIsLoading(false);
+      if (
+        error.code == "auth/wrong-password" ||
+        error.code == "auth/user-not-found"
+      ) {
+        setError("Wrong Credentials.");
+      } else {
+        setError(error.message);
+      }
+      setVisible(true);
       console.log(error);
     });
 };
@@ -22,7 +31,7 @@ export const logout = () => {
   firebase.auth().signOut().then();
 };
 
-export const register = (values, setIsLoading) => {
+export const register = (values, setIsLoading, setError, setVisible) => {
   firebase
     .auth()
     .createUserWithEmailAndPassword(values.email, values.password)
@@ -39,11 +48,19 @@ export const register = (values, setIsLoading) => {
         .then(() => {})
         .catch((error) => {
           setIsLoading(false);
+          setError(error.message);
+          setVisible(true);
           console.log(error);
         });
     })
     .catch((error) => {
       setIsLoading(false);
+      if (error.code == "auth/email-already-in-use") {
+        setError("An error occurred, please try again later.");
+      } else {
+        setError(error.message);
+      }
+      setVisible(true);
       console.log(error);
     });
 };
