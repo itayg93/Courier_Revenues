@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
-import { TextInput, Button, Snackbar } from "react-native-paper";
+import { StyleSheet, Text, Keyboard } from "react-native";
+import { TextInput, Button } from "react-native-paper";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -17,18 +17,15 @@ const validationSchema = Yup.object().shape({
 
 export const LoginScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
-  // snackbar
-  const [error, setError] = useState("");
-  const [visible, setVisible] = useState(false);
-  const onDismissSnackBar = () => setVisible(false);
   return (
     <AppScreen style={styles.container}>
       <Formik
         initialValues={{ email: "", password: "" }}
         validationSchema={validationSchema}
         onSubmit={(values) => {
+          Keyboard.dismiss();
           setIsLoading(true);
-          login(values, setIsLoading, setError, setVisible);
+          login(values, setIsLoading);
         }}
       >
         {({
@@ -77,12 +74,6 @@ export const LoginScreen = () => {
           </>
         )}
       </Formik>
-      {/** snackbar */}
-      <View style={{ flex: 1 }}>
-        <Snackbar visible={visible} onDismiss={onDismissSnackBar}>
-          {error}
-        </Snackbar>
-      </View>
     </AppScreen>
   );
 };

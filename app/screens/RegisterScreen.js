@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text } from "react-native";
-import { TextInput, Button, Snackbar } from "react-native-paper";
+import { StyleSheet, Text } from "react-native";
+import { TextInput, Button } from "react-native-paper";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -18,10 +18,6 @@ const validationSchema = Yup.object().shape({
 
 export const RegisterScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
-  // snackbar
-  const [error, setError] = useState("");
-  const [visible, setVisible] = useState(false);
-  const onDismissSnackBar = () => setVisible(false);
   return (
     <AppScreen style={styles.container}>
       <Formik
@@ -29,7 +25,7 @@ export const RegisterScreen = () => {
         validationSchema={validationSchema}
         onSubmit={(values) => {
           setIsLoading(true);
-          register(values, setIsLoading, setError, setVisible);
+          register(values, setIsLoading);
         }}
       >
         {({
@@ -89,12 +85,6 @@ export const RegisterScreen = () => {
           </>
         )}
       </Formik>
-      {/** snackbar */}
-      <View style={{ flex: 1 }}>
-        <Snackbar visible={visible} onDismiss={onDismissSnackBar}>
-          {error}
-        </Snackbar>
-      </View>
     </AppScreen>
   );
 };
