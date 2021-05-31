@@ -17,6 +17,7 @@ const validationSchema = Yup.object().shape({
 
 export const LoginScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [hidePassword, setHidePassword] = useState(true);
   return (
     <AppScreen style={styles.container}>
       <Formik
@@ -56,9 +57,16 @@ export const LoginScreen = () => {
               onChangeText={handleChange("password")}
               onBlur={() => setFieldTouched("password")}
               value={values.password}
-              secureTextEntry
+              secureTextEntry={hidePassword}
               autoCapitalize="none"
               autoCorrect={false}
+              right={
+                <TextInput.Icon
+                  name="eye"
+                  color={AppColors.medium}
+                  onPress={() => setHidePassword(!hidePassword)}
+                />
+              }
             />
             {errors["password"] && touched["password"] ? (
               <Text style={styles.errorMessage}>{errors["password"]}</Text>

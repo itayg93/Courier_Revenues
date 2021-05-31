@@ -76,7 +76,7 @@ export const ProfileScreen = () => {
               updateUserProfile={updateUserProfile}
             />
             {/** place holder to push the screen to the top because of the flex-end for the keyboard avoiding view */}
-            <View style={{ flex: 1 }}></View>
+            <View style={{ flex: 1 }} />
           </View>
         </TouchableWithoutFeedback>
       </AppScreen>

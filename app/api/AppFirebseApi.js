@@ -3,6 +3,8 @@ import firebase from "firebase";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 
+import moment from "moment";
+
 import { AppFirebaseConstants } from "./AppFirebseConstants";
 
 // auth
@@ -49,6 +51,8 @@ export const register = (values, setIsLoading) => {
 };
 
 // firestore
+
+// profile
 
 export const createInitialUserProfile = (userUid) => {
   firebase
@@ -104,6 +108,44 @@ export const updateUserProfile = (userUid, values, setIsLoading) => {
     })
     .then(() => {
       setIsLoading(false);
+    })
+    .catch((error) => {
+      setIsLoading(false);
+      console.log(error);
+    });
+};
+
+// expenses
+
+export const saveExpense = (
+  userUid,
+  values,
+  setIsLoading,
+  setExpenseType,
+  resetForm
+) => {
+  var expenseId = uuidv4().toString();
+  var date = new Date();
+  firebase
+    .firestore()
+    .collection(AppFirebaseConstants.USERS_DATA)
+    .doc(userUid)
+    .collection(AppFirebaseConstants.EXPENSES)
+    .doc(expenseId)
+    .set({
+      id: expenseId,
+      timestamp: moment().valueOf(),
+      day: date.getDate(),
+      month: date.getMonth() + 1,
+      year: date.getFullYear(),
+      type: values.expenseType,
+      cost: values.expenseCost,
+      comment: values.expenseComment,
+    })
+    .then(() => {
+      setIsLoading(false);
+      setExpenseType("Fuel");
+      resetForm();
     })
     .catch((error) => {
       setIsLoading(false);
