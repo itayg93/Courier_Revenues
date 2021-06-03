@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Text, Keyboard } from "react-native";
-import { TextInput, Button, RadioButton } from "react-native-paper";
+import { TextInput, Button, RadioButton, Divider } from "react-native-paper";
 
 import { Formik } from "formik";
 import * as Yup from "yup";
@@ -55,16 +55,19 @@ export const EditExpenseForm = ({ uid, isLoading, setIsLoading }) => {
                 label="Fuel"
                 value="Fuel"
               />
+              <Divider />
               <RadioButton.Item
                 color={AppColors.primary}
                 label="Maintenance"
                 value="Maintenance"
               />
+              <Divider />
               <RadioButton.Item
                 color={AppColors.primary}
                 label="Equipment"
                 value="Equipment"
               />
+              <Divider />
               <RadioButton.Item
                 color={AppColors.primary}
                 label="Other"

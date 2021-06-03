@@ -11,7 +11,6 @@ import { logout } from "../api/AppFirebseApi";
 export const DashboardScreen = ({ navigation }) => {
   return (
     <AppScreen style={styles.container}>
-      <Text style={styles.text}>Dashboard Screen</Text>
       <View style={styles.buttonsContainer}>
         <Button
           style={styles.btn}
@@ -55,10 +54,6 @@ export const DashboardScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     padding: AppSpacing.m,
-  },
-  text: {
-    marginTop: AppSpacing.s,
-    alignSelf: "center",
   },
   buttonsContainer: {
     marginTop: AppSpacing.xl,

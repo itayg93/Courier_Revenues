@@ -9,7 +9,7 @@ import { NavigationConstants } from "../navigation/NavigationCostants";
 export const WelcomeScreen = ({ navigation }) => {
   return (
     <AppScreen style={styles.container}>
-      <Text style={styles.text}>Welcome Screen</Text>
+      <Text style={styles.text}>Welcome</Text>
       <Button
         style={styles.loginBtn}
         mode="contained"

@@ -27,7 +27,6 @@ export const EditExpenseScreen = () => {
       <AppScreen style={styles.container}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
-            <Text style={styles.text}>Edit Expense Screen</Text>
             <EditExpenseForm
               uid={uid}
               isLoading={isLoading}
@@ -45,9 +44,5 @@ export const EditExpenseScreen = () => {
 const styles = StyleSheet.create({
   container: {
     padding: AppSpacing.m,
-  },
-  text: {
-    alignSelf: "center",
-    marginTop: AppSpacing.s,
   },
 });

@@ -3,8 +3,6 @@ import firebase from "firebase";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 
-import moment from "moment";
-
 import { AppFirebaseConstants } from "./AppFirebseConstants";
 
 // auth
@@ -134,7 +132,7 @@ export const saveExpense = (
     .doc(expenseId)
     .set({
       id: expenseId,
-      timestamp: moment().valueOf(),
+      timestamp: date.getTime(),
       day: date.getDate(),
       month: date.getMonth() + 1,
       year: date.getFullYear(),
@@ -151,4 +149,42 @@ export const saveExpense = (
       setIsLoading(false);
       console.log(error);
     });
+};
+
+export const fetchExpenses = async (
+  userUid,
+  setLoading,
+  fromTimeInMillis,
+  tillTimeInMillis
+) => {
+  try {
+    var expensesList = [];
+    var querySnapshot = await firebase
+      .firestore()
+      .collection(AppFirebaseConstants.USERS_DATA)
+      .doc(userUid)
+      .collection(AppFirebaseConstants.EXPENSES)
+      .where("timestamp", ">=", fromTimeInMillis)
+      .where("timestamp", "<=", tillTimeInMillis)
+      .orderBy("timestamp")
+      .get();
+    if (querySnapshot.empty) return expensesList;
+    querySnapshot.docs.forEach((doc) => {
+      var currentExpense = doc.data();
+      expensesList.push({
+        id: currentExpense.id,
+        timestamp: currentExpense.timestamp,
+        day: currentExpense.day,
+        month: currentExpense.month,
+        year: currentExpense.year,
+        type: currentExpense.type,
+        cost: currentExpense.cost,
+        comment: currentExpense.comment,
+      });
+    });
+    return expensesList;
+  } catch (error) {
+    setLoading(false);
+    console.log(error);
+  }
 };

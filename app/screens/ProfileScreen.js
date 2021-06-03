@@ -54,7 +54,6 @@ export const ProfileScreen = () => {
       <AppScreen style={styles.container}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View style={{ flex: 1, justifyContent: "flex-end" }}>
-            <Text style={styles.text}>Profile Screen</Text>
             {/** profile card */}
             <ProfileCard displayName={displayName} email={email} />
             {/** is submit expenses */}
@@ -87,10 +86,6 @@ export const ProfileScreen = () => {
 const styles = StyleSheet.create({
   container: {
     padding: AppSpacing.m,
-  },
-  text: {
-    alignSelf: "center",
-    marginTop: AppSpacing.s,
   },
   isSubmitExpensesContainer: {
     flexDirection: "row",

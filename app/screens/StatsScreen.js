@@ -1,15 +1,32 @@
-import React, { useState, useCallback } from "react";
-import { StyleSheet, View, Text, TouchableWithoutFeedback } from "react-native";
-import { Divider } from "react-native-paper";
+import React, { useState, useCallback, useContext } from "react";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableWithoutFeedback,
+  FlatList,
+} from "react-native";
+import { Divider, Button } from "react-native-paper";
 
 import { DatePickerModal } from "react-native-paper-dates";
 
 import { AppColors, AppSpacing, AppSizes } from "../config";
 import { AppScreen } from "../components/AppScreen";
 
+import { fetchExpenses } from "../api/AppFirebseApi";
+
+import { AuthContext } from "../auth/AuthContext";
+
 export const StatsScreen = () => {
+  const { user } = useContext(AuthContext);
+  const { uid } = user;
+
   // from
-  const [from, setFrom] = useState(new Date());
+  var x = new Date();
+  x.setHours(0);
+  x.setMinutes(0);
+  x.setSeconds(0);
+  const [from, setFrom] = useState(x);
   const [showFrom, setShowFrom] = useState(false);
 
   const onDismissFrom = useCallback(() => {
@@ -25,7 +42,11 @@ export const StatsScreen = () => {
   );
 
   // till
-  const [till, setTill] = useState(new Date());
+  var y = new Date();
+  y.setHours(23);
+  y.setMinutes(59);
+  y.setSeconds(59);
+  const [till, setTill] = useState(y);
   const [showTill, setShowTill] = useState(false);
 
   const onDismissTill = useCallback(() => {
@@ -40,9 +61,27 @@ export const StatsScreen = () => {
     [setShowTill, setTill]
   );
 
+  const [loading, setLoading] = useState(false);
+  const [expenses, setExpenses] = useState([]);
+
+  const loadExpenses = async (
+    uid,
+    setLoading,
+    fromTimeInMillis,
+    tillTimeInMillis
+  ) => {
+    var newExpenses = await fetchExpenses(
+      uid,
+      setLoading,
+      fromTimeInMillis,
+      tillTimeInMillis
+    );
+    setExpenses(newExpenses);
+    setLoading(false);
+  };
+
   return (
     <AppScreen style={styles.container}>
-      <Text style={styles.text}>Stats Screen</Text>
       <View style={styles.datesSelectionContainer}>
         {/** from */}
         <TouchableWithoutFeedback onPress={() => setShowFrom(true)}>
@@ -73,6 +112,31 @@ export const StatsScreen = () => {
             </Text>
           </View>
         </TouchableWithoutFeedback>
+      </View>
+      <Button
+        mode="contained"
+        onPress={() => {
+          // manipulate till
+          till.setHours(23);
+          till.setMinutes(59);
+          till.setSeconds(59);
+          setLoading(true);
+          loadExpenses(uid, setLoading, from.getTime(), till.getTime());
+        }}
+        style={styles.statsBtn}
+        loading={loading}
+      >
+        Stats
+      </Button>
+      {/** expenses and shifts list */}
+      <View style={{ marginTop: AppSpacing.l }}>
+        {expenses && (
+          <FlatList
+            data={expenses}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => <Text>{item.type}</Text>}
+          />
+        )}
       </View>
       {/** from selection */}
       <DatePickerModal
@@ -106,10 +170,6 @@ const styles = StyleSheet.create({
   container: {
     padding: AppSpacing.m,
   },
-  text: {
-    alignSelf: "center",
-    marginTop: AppSpacing.s,
-  },
   datesSelectionContainer: {
     marginVertical: AppSpacing.l,
     backgroundColor: AppColors.white,
@@ -139,5 +199,8 @@ const styles = StyleSheet.create({
   },
   tillDate: {
     fontSize: AppSizes.m,
+  },
+  statsBtn: {
+    backgroundColor: AppColors.primary,
   },
 });
