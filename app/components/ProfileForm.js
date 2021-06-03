@@ -72,6 +72,7 @@ export const ProfileForm = ({
               value={values.commissionRate}
               keyboardType="numeric"
               autoCorrect={false}
+              right={<TextInput.Affix text="%" />}
             />
             {errors["commissionRate"] && touched["commissionRate"] ? (
               <Text style={styles.errorMessage}>
@@ -89,6 +90,7 @@ export const ProfileForm = ({
             value={values.compulsoryInsurance}
             keyboardType="numeric"
             autoCorrect={false}
+            right={<TextInput.Affix text="₪" />}
           />
           {errors["compulsoryInsurance"] && touched["compulsoryInsurance"] ? (
             <Text style={styles.errorMessage}>
@@ -104,6 +106,7 @@ export const ProfileForm = ({
             value={values.collateralInsurance}
             keyboardType="numeric"
             autoCorrect={false}
+            right={<TextInput.Affix text="₪" />}
           />
           {errors["collateralInsurance"] && touched["collateralInsurance"] ? (
             <Text style={styles.errorMessage}>
@@ -119,6 +122,7 @@ export const ProfileForm = ({
             value={values.personalInsurance}
             keyboardType="numeric"
             autoCorrect={false}
+            right={<TextInput.Affix text="₪" />}
           />
           {errors["personalInsurance"] && touched["personalInsurance"] ? (
             <Text style={styles.errorMessage}>

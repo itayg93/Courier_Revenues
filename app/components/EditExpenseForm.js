@@ -84,6 +84,7 @@ export const EditExpenseForm = ({ uid, isLoading, setIsLoading }) => {
             value={values.expenseCost}
             keyboardType="numeric"
             autoCorrect={false}
+            right={<TextInput.Affix text="₪" />}
           />
           {errors["expenseCost"] && touched["expenseCost"] ? (
             <Text style={styles.errorMessage}>{errors["expenseCost"]}</Text>
