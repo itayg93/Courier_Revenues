@@ -1,8 +1,9 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Button, FAB } from "react-native-paper";
+import LottieView from "lottie-react-native";
 
-import { AppColors, AppSpacing, AppSizes } from "../config";
+import { AppColors, AppSpacing } from "../config";
 import { AppScreen } from "../components/AppScreen";
 import { NavigationConstants } from "../navigation/NavigationCostants";
 
@@ -41,10 +42,20 @@ export const DashboardScreen = ({ navigation }) => {
           Logout
         </Button>
       </View>
+      <View style={styles.animationContainer}>
+        <LottieView
+          style={{
+            width: 300,
+            height: 300,
+          }}
+          source={require("../assets/deliveryLottie.json")}
+        />
+      </View>
       <FAB
         style={styles.shiftFab}
         icon="timer"
         label="New Shift"
+        color={AppColors.white}
         onPress={() => navigation.navigate(NavigationConstants.TIMER_SCREEN)}
       />
     </AppScreen>
@@ -53,15 +64,21 @@ export const DashboardScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: AppSpacing.m,
+    justifyContent: "center",
   },
   buttonsContainer: {
-    marginTop: AppSpacing.xl,
+    position: "absolute",
+    margin: AppSpacing.m,
+    left: 0,
+    top: 0,
     width: "40%",
   },
   btn: {
     marginVertical: AppSpacing.s,
     backgroundColor: AppColors.medium,
+  },
+  animationContainer: {
+    alignSelf: "center",
   },
   shiftFab: {
     position: "absolute",
