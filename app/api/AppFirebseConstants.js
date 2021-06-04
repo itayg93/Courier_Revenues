@@ -1,6 +1,6 @@
 export const AppFirebaseConstants = {
   USERS_DATA: "USERS_DATA",
-  PROFILE: "PROFILE",
+  PROFILES: "PROFILES",
   SHIFTS: "SHIFTS",
   EXPENSES: "EXPENSES",
 };

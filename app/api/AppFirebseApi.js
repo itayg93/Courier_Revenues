@@ -55,8 +55,10 @@ export const register = (values, setIsLoading) => {
 export const createInitialUserProfile = (userUid) => {
   firebase
     .firestore()
-    .collection(userUid)
-    .doc(AppFirebaseConstants.PROFILE)
+    .collection(AppFirebaseConstants.USERS_DATA)
+    .doc(userUid)
+    .collection(AppFirebaseConstants.PROFILES)
+    .doc(userUid)
     .set({
       isSubmitExpenses: false,
       taxPoints: 2.25,
@@ -75,8 +77,10 @@ export const fetchUserProfile = async (userUid) => {
   try {
     var querySnapshot = await firebase
       .firestore()
-      .collection(userUid)
-      .doc(AppFirebaseConstants.PROFILE)
+      .collection(AppFirebaseConstants.USERS_DATA)
+      .doc(userUid)
+      .collection(AppFirebaseConstants.PROFILES)
+      .doc(userUid)
       .get();
     return ({
       isSubmitExpenses,
@@ -94,15 +98,17 @@ export const fetchUserProfile = async (userUid) => {
 export const updateUserProfile = (userUid, values, setIsLoading) => {
   firebase
     .firestore()
-    .collection(userUid)
-    .doc(AppFirebaseConstants.PROFILE)
+    .collection(AppFirebaseConstants.USERS_DATA)
+    .doc(userUid)
+    .collection(AppFirebaseConstants.PROFILES)
+    .doc(userUid)
     .set({
       isSubmitExpenses: values.isSubmitExpenses,
-      taxPoints: values.taxPoints,
-      commissionRate: values.commissionRate,
-      compulsoryInsurance: values.compulsoryInsurance,
-      collateralInsurance: values.collateralInsurance,
-      personalInsurance: values.personalInsurance,
+      taxPoints: Number(values.taxPoints),
+      commissionRate: Number(values.commissionRate),
+      compulsoryInsurance: Number(values.compulsoryInsurance),
+      collateralInsurance: Number(values.collateralInsurance),
+      personalInsurance: Number(values.personalInsurance),
     })
     .then(() => {
       setIsLoading(false);
@@ -137,7 +143,7 @@ export const saveExpense = (
       month: date.getMonth() + 1,
       year: date.getFullYear(),
       type: values.expenseType,
-      cost: values.expenseCost,
+      cost: Number(values.expenseCost),
       comment: values.expenseComment,
     })
     .then(() => {
