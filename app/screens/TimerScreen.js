@@ -12,61 +12,35 @@ import { AppColors, AppSpacing, AppSizes } from "../config";
 import { AppScreen } from "../components/AppScreen";
 import { EditShiftForm } from "../components/EditShiftForm";
 
+import { formatTime } from "../util";
+
 import { AuthContext } from "../auth/AuthContext";
+
+import { useTimer } from "../hooks/useTimer";
 
 export const TimerScreen = () => {
   const { user } = useContext(AuthContext);
   const { uid } = user;
   const [loading, setLoading] = useState(false);
 
-  const [timer, setTimer] = useState(5555);
-  const [active, setActive] = useState(false);
-  const [paused, setPaused] = useState(false);
-  const increment = useRef(null);
-
   const [showSaveDialog, setShowSaveDialog] = useState(false);
 
-  const handleStart = () => {
-    setActive(true);
-    setPaused(true);
-    increment.current = setInterval(() => {
-      setTimer((timer) => timer + 1);
-    }, 1000);
-  };
-
-  const handlePause = () => {
-    clearInterval(increment.current);
-    setPaused(false);
-  };
-
-  const handleResume = () => {
-    setPaused(true);
-    increment.current = setInterval(() => {
-      setTimer((timer) => timer + 1);
-    }, 1000);
-  };
-
-  const handleReset = () => {
-    clearInterval(increment.current);
-    setActive(false);
-    setPaused(false);
-    setTimer(0);
-  };
-
-  const formatTime = () => {
-    const getSeconds = `0${timer % 60}`.slice(-2);
-    const minutes = `${Math.floor(timer / 60)}`;
-    const getMinutes = `0${minutes % 60}`.slice(-2);
-    const getHours = `0${Math.floor(timer / 3600)}`.slice(-2);
-    return `${getHours} : ${getMinutes} : ${getSeconds}`;
-  };
+  const {
+    timer,
+    active,
+    paused,
+    handleStart,
+    handlePause,
+    handleResume,
+    handleReset,
+  } = useTimer(5544);
 
   return (
     <Provider>
       <AppScreen style={styles.container}>
         {/** timer */}
         <View style={styles.timerContainer}>
-          <Text style={styles.timer}>{formatTime()}</Text>
+          <Text style={styles.timer}>{formatTime(timer)}</Text>
         </View>
         {/** timer buttons */}
         <View style={styles.timerbuttonsContainer}>
