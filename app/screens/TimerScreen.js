@@ -1,29 +1,17 @@
-import React, { useState, useRef, useContext } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from "react-native";
-import { Portal, Button, Dialog, Provider } from "react-native-paper";
+import React, { useState, useContext } from "react";
+import { StyleSheet, View, Text } from "react-native";
+import { Button, Provider } from "react-native-paper";
 
 import { AppColors, AppSpacing, AppSizes } from "../config";
 import { AppScreen } from "../components/AppScreen";
-import { EditShiftForm } from "../components/EditShiftForm";
-
+import { SaveShiftDialog } from "../components/SaveShiftDialog";
 import { formatTime } from "../util";
-
 import { AuthContext } from "../auth/AuthContext";
-
 import { useTimer } from "../hooks/useTimer";
 
 export const TimerScreen = () => {
   const { user } = useContext(AuthContext);
   const { uid } = user;
-  const [loading, setLoading] = useState(false);
-
-  const [showSaveDialog, setShowSaveDialog] = useState(false);
 
   const {
     timer,
@@ -33,7 +21,11 @@ export const TimerScreen = () => {
     handlePause,
     handleResume,
     handleReset,
-  } = useTimer(5544);
+  } = useTimer(0);
+
+  const [loading, setLoading] = useState(false);
+
+  const [showSaveDialog, setShowSaveDialog] = useState(false);
 
   return (
     <Provider>
@@ -90,31 +82,14 @@ export const TimerScreen = () => {
         >
           Save
         </Button>
-        <Portal>
-          <Dialog
-            visible={showSaveDialog}
-            onDismiss={() => setShowSaveDialog(false)}
-            style={{
-              backgroundColor: AppColors.light,
-              alignSelf: "center",
-              position: "absolute",
-              top: 20,
-              width: "95%",
-            }}
-          >
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-              <Dialog.Content>
-                <EditShiftForm
-                  uid={uid}
-                  timer={timer}
-                  loading={loading}
-                  setLoading={setLoading}
-                  setShowSaveDialog={setShowSaveDialog}
-                />
-              </Dialog.Content>
-            </TouchableWithoutFeedback>
-          </Dialog>
-        </Portal>
+        <SaveShiftDialog
+          uid={uid}
+          timer={timer}
+          loading={loading}
+          setLoading={setLoading}
+          showSaveDialog={showSaveDialog}
+          setShowSaveDialog={setShowSaveDialog}
+        />
       </AppScreen>
     </Provider>
   );

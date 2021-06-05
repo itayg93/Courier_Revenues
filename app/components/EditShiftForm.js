@@ -1,12 +1,10 @@
 import React from "react";
 import { StyleSheet, Text, Keyboard, View } from "react-native";
 import { TextInput, Button } from "react-native-paper";
-
 import { Formik } from "formik";
 import * as Yup from "yup";
 
 import { AppColors, AppSpacing } from "../config";
-
 import { saveShift } from "../api/AppFirebseApi";
 
 const validationSchema = Yup.object().shape({
