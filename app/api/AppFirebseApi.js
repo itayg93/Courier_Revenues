@@ -194,3 +194,44 @@ export const fetchExpenses = async (
     console.log(error);
   }
 };
+
+// shifts
+
+export const saveShift = (
+  userUid,
+  timer,
+  values,
+  setLoading,
+  setShowSaveDialog,
+  resetForm
+) => {
+  var shiftId = uuidv4().toString();
+  var date = new Date();
+  firebase
+    .firestore()
+    .collection(AppFirebaseConstants.USERS_DATA)
+    .doc(userUid)
+    .collection(AppFirebaseConstants.SHIFTS)
+    .doc(shiftId)
+    .set({
+      id: shiftId,
+      timestamp: date.getTime(),
+      day: date.getDate(),
+      month: date.getMonth() + 1,
+      year: date.getFullYear(),
+      timeInSeconds: timer,
+      deliveries: Number(values.deliveries),
+      wolt: Number(values.wolt),
+      creditTips: Number(values.creditTips),
+      cashTips: Number(values.cashTips),
+    })
+    .then(() => {
+      setLoading(false);
+      resetForm();
+      setShowSaveDialog(false);
+    })
+    .catch((error) => {
+      setLoading(false);
+      console.log(error);
+    });
+};
