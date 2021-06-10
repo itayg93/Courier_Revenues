@@ -97,9 +97,10 @@ export const EditExpenseForm = ({ uid, isLoading, setIsLoading }) => {
             onBlur={() => setFieldTouched("expenseComment")}
             value={values.expenseComment}
             autoCorrect={false}
+            autoCapitalize="sentences"
             multiline
             maxLength={255}
-            numberOfLines={3}
+            numberOfLines={2}
             right={<TextInput.Affix text="/255" />}
           />
           {errors["expenseComment"] && touched["expenseComment"] ? (
@@ -123,7 +124,7 @@ export const EditExpenseForm = ({ uid, isLoading, setIsLoading }) => {
 const styles = StyleSheet.create({
   readioButtonsContainer: {
     backgroundColor: AppColors.white,
-    marginTop: AppSpacing.xl,
+    // marginTop: AppSpacing.xl,
     marginBottom: AppSpacing.s,
     padding: AppSpacing.m,
     borderRadius: AppSpacing.l,

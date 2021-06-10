@@ -7,8 +7,6 @@ import { AppColors, AppSpacing } from "../config";
 import { AppScreen } from "../components/AppScreen";
 import { NavigationConstants } from "../navigation/NavigationCostants";
 
-import { logout } from "../api/AppFirebseApi";
-
 export const DashboardScreen = ({ navigation }) => {
   return (
     <AppScreen style={styles.container}>
@@ -30,16 +28,6 @@ export const DashboardScreen = ({ navigation }) => {
           onPress={() => navigation.navigate(NavigationConstants.STATS_SCREEN)}
         >
           Stats
-        </Button>
-        <Button
-          style={styles.btn}
-          icon="logout"
-          mode="contained"
-          onPress={() => {
-            logout();
-          }}
-        >
-          Logout
         </Button>
       </View>
       <View style={styles.animationContainer}>
@@ -71,7 +59,7 @@ const styles = StyleSheet.create({
     margin: AppSpacing.m,
     left: 0,
     top: 0,
-    width: "40%",
+    width: "35%",
   },
   btn: {
     marginVertical: AppSpacing.s,

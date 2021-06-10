@@ -1,13 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  Keyboard,
-  Platform,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { StyleSheet, View, Text, ScrollView } from "react-native";
 import { Switch } from "react-native-paper";
 
 import { AppColors, AppSpacing, AppSizes } from "../config";
@@ -47,39 +39,30 @@ export const ProfileScreen = () => {
   if (initializing) return <InitializingScreen initializing={initializing} />;
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
-    >
-      <AppScreen style={styles.container}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={{ flex: 1, justifyContent: "flex-end" }}>
-            {/** profile card */}
-            <ProfileCard displayName={displayName} email={email} />
-            {/** is submit expenses */}
-            <View style={styles.isSubmitExpensesContainer}>
-              <Text style={styles.isSubmitExpenesText}>Submit Expenses?</Text>
-              <Switch
-                value={isSubmitExpenses}
-                onValueChange={onToggleSwitch}
-                color={AppColors.primary}
-              />
-            </View>
-            {/** tax, commission and insurances */}
-            <ProfileForm
-              userProfile={userProfile}
-              isSubmitExpenses={isSubmitExpenses}
-              uid={uid}
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
-              updateUserProfile={updateUserProfile}
-            />
-            {/** place holder to push the screen to the top because of the flex-end for the keyboard avoiding view */}
-            <View style={{ flex: 1 }} />
-          </View>
-        </TouchableWithoutFeedback>
-      </AppScreen>
-    </KeyboardAvoidingView>
+    <AppScreen style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/** profile card */}
+        <ProfileCard displayName={displayName} email={email} />
+        {/** is submit expenses */}
+        <View style={styles.isSubmitExpensesContainer}>
+          <Text style={styles.isSubmitExpenesText}>Submit Expenses?</Text>
+          <Switch
+            value={isSubmitExpenses}
+            onValueChange={onToggleSwitch}
+            color={AppColors.primary}
+          />
+        </View>
+        {/** tax, commission and insurances */}
+        <ProfileForm
+          userProfile={userProfile}
+          isSubmitExpenses={isSubmitExpenses}
+          uid={uid}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+          updateUserProfile={updateUserProfile}
+        />
+      </ScrollView>
+    </AppScreen>
   );
 };
 

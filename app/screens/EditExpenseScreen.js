@@ -1,12 +1,5 @@
 import React, { useContext, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  View,
-  Keyboard,
-} from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 
 import { AppSpacing } from "../config";
 import { AppScreen } from "../components/AppScreen";
@@ -20,24 +13,15 @@ export const EditExpenseScreen = () => {
   const { uid } = user;
   const [isLoading, setIsLoading] = useState(false);
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
-    >
-      <AppScreen style={styles.container}>
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={{ flex: 1, justifyContent: "flex-end" }}>
-            <EditExpenseForm
-              uid={uid}
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
-            />
-            {/** place holder to push the screen to the top because of the flex-end for the keyboard avoiding view */}
-            <View style={{ flex: 1 }} />
-          </View>
-        </TouchableWithoutFeedback>
-      </AppScreen>
-    </KeyboardAvoidingView>
+    <AppScreen style={styles.container}>
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <EditExpenseForm
+          uid={uid}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+        />
+      </ScrollView>
+    </AppScreen>
   );
 };
 

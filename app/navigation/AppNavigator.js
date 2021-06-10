@@ -3,10 +3,9 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import { AppColors, AppSpacing, AppSizes } from "../config";
+import { AppColors } from "../config";
 import { NavigationConstants } from "./NavigationCostants";
 import { ProfileScreen } from "../screens/ProfileScreen";
-import { DashboardScreen } from "../screens/DashboardScreen";
 import { DashboardNavigator } from "./DashboardNavigator";
 import { RevenuesScreen } from "../screens/RevenuesScreen";
 

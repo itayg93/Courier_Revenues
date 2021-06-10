@@ -131,7 +131,7 @@ export const DatesSelection = ({ uid, loading, setLoading, loadExpenses }) => {
 
 const styles = StyleSheet.create({
   datesSelectionContainer: {
-    marginVertical: AppSpacing.l,
+    marginBottom: AppSpacing.l,
     backgroundColor: AppColors.white,
     padding: AppSpacing.l,
     borderRadius: AppSpacing.l,

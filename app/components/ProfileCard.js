@@ -1,8 +1,10 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { Avatar } from "react-native-paper";
+import { Avatar, IconButton } from "react-native-paper";
 
 import { AppColors, AppSpacing, AppSizes } from "../config";
+
+import { logout } from "../api/AppFirebseApi";
 
 export const ProfileCard = ({ displayName, email }) => {
   return (
@@ -12,13 +14,23 @@ export const ProfileCard = ({ displayName, email }) => {
         <Text style={styles.displayName}>{displayName}</Text>
         <Text style={styles.email}>{email}</Text>
       </View>
+      <View style={styles.logoutIconBtnContainer}>
+        <IconButton
+          icon="logout"
+          color={AppColors.medium}
+          size={25}
+          onPress={() => {
+            logout();
+          }}
+        />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   profileDetailsContainer: {
-    marginVertical: AppSpacing.l,
+    marginBottom: AppSpacing.l,
     flexDirection: "row",
     backgroundColor: AppColors.white,
     padding: AppSpacing.l,
@@ -27,6 +39,7 @@ const styles = StyleSheet.create({
   displayNameAndEmailWrapper: {
     marginLeft: AppSpacing.m,
     justifyContent: "center",
+    flex: 1,
   },
   displayName: {
     fontWeight: "bold",
@@ -35,5 +48,8 @@ const styles = StyleSheet.create({
   email: {
     marginTop: AppSpacing.s,
     color: AppColors.medium,
+  },
+  logoutIconBtnContainer: {
+    justifyContent: "center",
   },
 });
