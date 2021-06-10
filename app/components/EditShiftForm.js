@@ -14,6 +14,17 @@ const validationSchema = Yup.object().shape({
   cashTips: Yup.number().optional().label("Cash Tips"),
 });
 
+const callSaveShift = async (
+  uid,
+  timer,
+  values,
+  setLoading,
+  setShowSaveDialog,
+  resetForm
+) => {
+  await saveShift(uid, timer, values, setLoading, setShowSaveDialog, resetForm);
+};
+
 export const EditShiftForm = ({
   uid,
   timer,
@@ -33,7 +44,14 @@ export const EditShiftForm = ({
       onSubmit={(values, { resetForm }) => {
         setLoading(true);
         Keyboard.dismiss();
-        saveShift(uid, timer, values, setLoading, setShowSaveDialog, resetForm);
+        callSaveShift(
+          uid,
+          timer,
+          values,
+          setLoading,
+          setShowSaveDialog,
+          resetForm
+        );
       }}
     >
       {({

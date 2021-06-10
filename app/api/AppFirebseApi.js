@@ -3,6 +3,7 @@ import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 
 import { AppFirebaseConstants } from "./AppFirebseConstants";
+import { formatTimeAsNumber } from "../util";
 
 // auth
 
@@ -196,7 +197,23 @@ export const fetchExpenses = async (
 
 // shifts
 
-export const saveShift = (
+const fetchCommissionRate = async (userUid) => {
+  try {
+    var querySnapshot = await firebase
+      .firestore()
+      .collection(AppFirebaseConstants.USERS_DATA)
+      .doc(userUid)
+      .collection(AppFirebaseConstants.PROFILES)
+      .doc(userUid)
+      .get();
+    const { commissionRate } = querySnapshot.data();
+    return commissionRate;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const saveShift = async (
   userUid,
   timer,
   values,
@@ -204,8 +221,43 @@ export const saveShift = (
   setShowSaveDialog,
   resetForm
 ) => {
+  // handle date and time
+  var currentTime = new Date();
+  var currentHour = currentTime.getHours();
+  if (currentHour >= 0 && currentHour <= 8) {
+    currentTime = currentTime.getTime() - 86400000;
+  }
+  // company commission rate
+  var commissionRate = await fetchCommissionRate(userUid);
+  // wolt
+  var wolt = Number(values.wolt);
+  var woltAfterCommission = wolt - (wolt * commissionRate) / 100;
+  var woltDelta = wolt - woltAfterCommission;
+  // credit tips
+  var creditTips = 0;
+  if (values.creditTips) {
+    creditTips = Number(values.creditTips);
+  }
+  var creditTipsAfterVAT = 0;
+  var creditTipsAfterVatAndCommission = 0;
+  var creditTipsDelta = 0;
+  if (creditTips > 0) {
+    creditTipsAfterVAT = creditTips - (creditTips * 17) / 100;
+    creditTipsAfterVatAndCommission =
+      creditTipsAfterVAT - (creditTipsAfterVAT * commissionRate) / 100;
+    creditTipsDelta = creditTipsAfterVAT - creditTipsAfterVatAndCommission;
+  }
+  // cash tips
+  var cashTips = 0;
+  if (values.cashTips) {
+    cashTips = Number(values.cashTips);
+  }
+  // hourly wage
+  var hourlyWage =
+    (woltAfterCommission + creditTipsAfterVatAndCommission + cashTips) /
+    formatTimeAsNumber(timer, false);
+  //
   var shiftId = uuidv4().toString();
-  var date = new Date();
   firebase
     .firestore()
     .collection(AppFirebaseConstants.USERS_DATA)
@@ -214,15 +266,22 @@ export const saveShift = (
     .doc(shiftId)
     .set({
       id: shiftId,
-      timestamp: date.getTime(),
-      day: date.getDate(),
-      month: date.getMonth() + 1,
-      year: date.getFullYear(),
+      timestamp: currentTime.getTime(),
+      day: currentTime.getDate(),
+      month: currentTime.getMonth() + 1,
+      year: currentTime.getFullYear(),
       timeInSeconds: timer,
       deliveries: Number(values.deliveries),
-      wolt: Number(values.wolt),
-      creditTips: Number(values.creditTips),
-      cashTips: Number(values.cashTips),
+      commissionRate,
+      wolt,
+      woltAfterCommission,
+      woltDelta,
+      creditTips,
+      creditTipsAfterVAT,
+      creditTipsAfterVatAndCommission,
+      creditTipsDelta,
+      cashTips,
+      hourlyWage,
     })
     .then(() => {
       setLoading(false);
