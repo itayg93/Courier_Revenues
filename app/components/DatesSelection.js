@@ -1,12 +1,12 @@
 import React, { useState, useCallback } from "react";
 import { StyleSheet, View, Text, TouchableHighlight } from "react-native";
-import { Divider, Button } from "react-native-paper";
+import { Button } from "react-native-paper";
 
 import { DatePickerModal } from "react-native-paper-dates";
 
 import { AppColors, AppSpacing, AppSizes } from "../config";
 
-export const DatesSelection = ({ uid, loading, setLoading, loadExpenses }) => {
+export const DatesSelection = ({ loading, setLoading, onPress }) => {
   // from
   // manipulate from to start of the day
   var x = new Date();
@@ -57,7 +57,7 @@ export const DatesSelection = ({ uid, loading, setLoading, loadExpenses }) => {
           onPress={() => setShowFrom(true)}
         >
           <View style={styles.fromContainer}>
-            <Text style={styles.fromText}>From</Text>
+            <Text style={styles.fromText}>From:</Text>
             <Text style={styles.fromDate}>
               {from.getDate() +
                 "/" +
@@ -67,15 +67,13 @@ export const DatesSelection = ({ uid, loading, setLoading, loadExpenses }) => {
             </Text>
           </View>
         </TouchableHighlight>
-        {/** divider */}
-        <Divider />
         {/** till */}
         <TouchableHighlight
           underlayColor={AppColors.light}
           onPress={() => setShowTill(true)}
         >
           <View style={styles.tillContainer}>
-            <Text style={styles.tillText}>Till</Text>
+            <Text style={styles.tillText}>Till:</Text>
             <Text style={styles.tillDate}>
               {till.getDate() +
                 "/" +
@@ -94,7 +92,7 @@ export const DatesSelection = ({ uid, loading, setLoading, loadExpenses }) => {
           till.setMinutes(59);
           till.setSeconds(59);
           setLoading(true);
-          loadExpenses(uid, setLoading, from.getTime(), till.getTime());
+          onPress(from.getTime(), till.getTime());
         }}
         style={styles.statsBtn}
         loading={loading}
@@ -131,31 +129,39 @@ export const DatesSelection = ({ uid, loading, setLoading, loadExpenses }) => {
 
 const styles = StyleSheet.create({
   datesSelectionContainer: {
-    marginBottom: AppSpacing.l,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: AppSpacing.m,
     backgroundColor: AppColors.white,
-    padding: AppSpacing.l,
+    padding: AppSpacing.s,
     borderRadius: AppSpacing.l,
   },
   fromContainer: {
-    marginVertical: AppSpacing.xl,
+    padding: AppSpacing.s,
+    marginVertical: AppSpacing.m,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
   },
   fromText: {
     fontSize: AppSizes.m,
+    fontWeight: "bold",
+    marginRight: 5,
   },
   fromDate: {
     fontSize: AppSizes.m,
   },
   tillContainer: {
-    marginVertical: AppSpacing.xl,
+    padding: AppSpacing.s,
+    marginVertical: AppSpacing.m,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
   },
   tillText: {
     fontSize: AppSizes.m,
+    fontWeight: "bold",
+    marginRight: 5,
   },
   tillDate: {
     fontSize: AppSizes.m,

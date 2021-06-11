@@ -3,7 +3,7 @@ import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
 
 import { AppFirebaseConstants } from "./AppFirebseConstants";
-import { formatTimeAsNumber } from "../util";
+import { formatTime } from "../util";
 
 // auth
 
@@ -137,6 +137,7 @@ export const saveExpense = (
     .collection(AppFirebaseConstants.EXPENSES)
     .doc(expenseId)
     .set({
+      dataType: "Expense",
       id: expenseId,
       timestamp: date.getTime(),
       day: date.getDate(),
@@ -178,6 +179,7 @@ export const fetchExpenses = async (
     querySnapshot.docs.forEach((doc) => {
       var currentExpense = doc.data();
       expensesList.push({
+        dataType: currentExpense.dataType,
         id: currentExpense.id,
         timestamp: currentExpense.timestamp,
         day: currentExpense.day,
@@ -225,7 +227,8 @@ export const saveShift = async (
   var currentTime = new Date();
   var currentHour = currentTime.getHours();
   if (currentHour >= 0 && currentHour <= 8) {
-    currentTime = currentTime.getTime() - 86400000;
+    currentTime = new Date(currentTime.getTime() - 86400000);
+    console.log(currentTime);
   }
   // company commission rate
   var commissionRate = await fetchCommissionRate(userUid);
@@ -252,10 +255,13 @@ export const saveShift = async (
   if (values.cashTips) {
     cashTips = Number(values.cashTips);
   }
+  // total
+  var total = wolt + creditTips + cashTips;
+  // total after commission and vat on credit tips
+  var totalAfterCommission =
+    woltAfterCommission + creditTipsAfterVatAndCommission + cashTips;
   // hourly wage
-  var hourlyWage =
-    (woltAfterCommission + creditTipsAfterVatAndCommission + cashTips) /
-    formatTimeAsNumber(timer, false);
+  var hourlyWage = totalAfterCommission / formatTime(timer, true);
   //
   var shiftId = uuidv4().toString();
   firebase
@@ -265,6 +271,7 @@ export const saveShift = async (
     .collection(AppFirebaseConstants.SHIFTS)
     .doc(shiftId)
     .set({
+      dataType: "Shift",
       id: shiftId,
       timestamp: currentTime.getTime(),
       day: currentTime.getDate(),
@@ -281,6 +288,8 @@ export const saveShift = async (
       creditTipsAfterVatAndCommission,
       creditTipsDelta,
       cashTips,
+      total,
+      totalAfterCommission,
       hourlyWage,
     })
     .then(() => {
@@ -292,4 +301,55 @@ export const saveShift = async (
       setLoading(false);
       console.log(error);
     });
+};
+
+export const fetchShifts = async (
+  userUid,
+  setLoading,
+  fromTimeInMillis,
+  tillTimeInMillis
+) => {
+  try {
+    var shiftsList = [];
+    var querySnapshot = await firebase
+      .firestore()
+      .collection(AppFirebaseConstants.USERS_DATA)
+      .doc(userUid)
+      .collection(AppFirebaseConstants.SHIFTS)
+      .where("timestamp", ">=", fromTimeInMillis)
+      .where("timestamp", "<=", tillTimeInMillis)
+      .orderBy("timestamp")
+      .get();
+    if (querySnapshot.empty) return shiftsList;
+    querySnapshot.docs.forEach((doc) => {
+      var currentShift = doc.data();
+      shiftsList.push({
+        dataType: currentShift.dataType,
+        id: currentShift.id,
+        timestamp: currentShift.timestamp,
+        day: currentShift.day,
+        month: currentShift.month,
+        year: currentShift.year,
+        timeInSeconds: currentShift.timeInSeconds,
+        deliveries: currentShift.deliveries,
+        commissionRate: currentShift.commissionRate,
+        wolt: currentShift.wolt,
+        woltAfterCommission: currentShift.woltAfterCommission,
+        woltDelta: currentShift.woltDelta,
+        creditTips: currentShift.creditTips,
+        creditTipsAfterVAT: currentShift.creditTipsAfterVAT,
+        creditTipsAfterVatAndCommission:
+          currentShift.creditTipsAfterVatAndCommission,
+        creditTipsDelta: currentShift.creditTipsDelta,
+        cashTips: currentShift.cashTips,
+        total: currentShift.total,
+        totalAfterCommission: currentShift.totalAfterCommission,
+        hourlyWage: currentShift.hourlyWage,
+      });
+    });
+    return shiftsList;
+  } catch (error) {
+    setLoading(false);
+    console.log(error);
+  }
 };

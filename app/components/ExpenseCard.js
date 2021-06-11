@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Divider } from "react-native-paper";
 
 import { AppColors, AppSpacing, AppSizes } from "../config";
 
@@ -14,35 +14,23 @@ export const ExpenseCard = ({ expense }) => {
           {expense.day + "/" + expense.month + "/" + expense.year}
         </Text>
       </View>
+      <Divider style={{ marginVertical: 5 }} />
       {/** type */}
       <View style={styles.rowContainer}>
-        <MaterialCommunityIcons
-          name="chevron-right"
-          size={20}
-          color={AppColors.medium}
-        />
         <Text style={styles.title}>Type: </Text>
         <Text style={styles.data}>{expense.type}</Text>
       </View>
+      <Divider style={{ marginVertical: 5 }} />
       {/** cost */}
       <View style={styles.rowContainer}>
-        <MaterialCommunityIcons
-          name="chevron-right"
-          size={20}
-          color={AppColors.medium}
-        />
         <Text style={styles.title}>Cost: </Text>
-        <Text style={styles.data}>{expense.cost + " ₪"}</Text>
+        <Text style={styles.data}>{expense.cost.toFixed(2) + " ₪"}</Text>
       </View>
+      {expense.comment ? <Divider style={{ marginVertical: 5 }} /> : null}
       {/** comment */}
       <View style={styles.rowContainer}>
         {expense.comment ? (
           <>
-            <MaterialCommunityIcons
-              name="chevron-right"
-              size={20}
-              color={AppColors.medium}
-            />
             <Text style={styles.title}>Comment: </Text>
             <Text style={styles.data}>{expense.comment}</Text>
           </>
@@ -57,11 +45,11 @@ const styles = StyleSheet.create({
     backgroundColor: AppColors.light,
     padding: AppSpacing.l,
     borderRadius: AppSpacing.l,
-    marginBottom: AppSpacing.m,
+    marginBottom: AppSpacing.s,
   },
   rowContainer: {
     flexDirection: "row",
-    alignItems: "center",
+    justifyContent: "space-between",
   },
   title: {
     fontSize: AppSizes.m,
