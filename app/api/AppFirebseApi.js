@@ -353,3 +353,109 @@ export const fetchShifts = async (
     console.log(error);
   }
 };
+
+// revenues
+
+export const fetchRevenuesData = async (
+  userUid,
+  selectedMonthIndex,
+  setLoading
+) => {
+  var expenses = await fetchExpensesByMonth(
+    userUid,
+    selectedMonthIndex,
+    setLoading
+  );
+  var shifts = await fetchShiftsByMonth(
+    userUid,
+    selectedMonthIndex,
+    setLoading
+  );
+  return { expenses, shifts };
+};
+
+export const fetchExpensesByMonth = async (
+  userUid,
+  selectedMonth,
+  setLoading
+) => {
+  try {
+    var expensesList = [];
+    var querySnapshot = await firebase
+      .firestore()
+      .collection(AppFirebaseConstants.USERS_DATA)
+      .doc(userUid)
+      .collection(AppFirebaseConstants.EXPENSES)
+      .where("month", "==", selectedMonth)
+      .orderBy("timestamp")
+      .get();
+    if (querySnapshot.empty) return expensesList;
+    querySnapshot.docs.forEach((doc) => {
+      var currentExpense = doc.data();
+      expensesList.push({
+        dataType: currentExpense.dataType,
+        id: currentExpense.id,
+        timestamp: currentExpense.timestamp,
+        day: currentExpense.day,
+        month: currentExpense.month,
+        year: currentExpense.year,
+        type: currentExpense.type,
+        cost: currentExpense.cost,
+        comment: currentExpense.comment,
+      });
+    });
+    return expensesList;
+  } catch (error) {
+    setLoading(false);
+    console.log(error);
+  }
+};
+
+export const fetchShiftsByMonth = async (
+  userUid,
+  selectedMonth,
+  setLoading
+) => {
+  try {
+    var shiftsList = [];
+    var querySnapshot = await firebase
+      .firestore()
+      .collection(AppFirebaseConstants.USERS_DATA)
+      .doc(userUid)
+      .collection(AppFirebaseConstants.SHIFTS)
+      .where("month", "==", selectedMonth)
+      .orderBy("timestamp")
+      .get();
+    if (querySnapshot.empty) return shiftsList;
+    querySnapshot.docs.forEach((doc) => {
+      var currentShift = doc.data();
+      shiftsList.push({
+        dataType: currentShift.dataType,
+        id: currentShift.id,
+        timestamp: currentShift.timestamp,
+        day: currentShift.day,
+        month: currentShift.month,
+        year: currentShift.year,
+        timeInSeconds: currentShift.timeInSeconds,
+        deliveries: currentShift.deliveries,
+        commissionRate: currentShift.commissionRate,
+        wolt: currentShift.wolt,
+        woltAfterCommission: currentShift.woltAfterCommission,
+        woltDelta: currentShift.woltDelta,
+        creditTips: currentShift.creditTips,
+        creditTipsAfterVAT: currentShift.creditTipsAfterVAT,
+        creditTipsAfterVatAndCommission:
+          currentShift.creditTipsAfterVatAndCommission,
+        creditTipsDelta: currentShift.creditTipsDelta,
+        cashTips: currentShift.cashTips,
+        total: currentShift.total,
+        totalAfterCommission: currentShift.totalAfterCommission,
+        hourlyWage: currentShift.hourlyWage,
+      });
+    });
+    return shiftsList;
+  } catch (error) {
+    setLoading(false);
+    console.log(error);
+  }
+};

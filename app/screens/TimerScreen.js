@@ -21,7 +21,7 @@ export const TimerScreen = () => {
     handlePause,
     handleResume,
     handleReset,
-  } = useTimer(5678);
+  } = useTimer(0);
 
   const [loading, setLoading] = useState(false);
 

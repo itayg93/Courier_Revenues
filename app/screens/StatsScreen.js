@@ -65,20 +65,22 @@ export const StatsScreen = () => {
       />
       {/** expenses and shifts list */}
       <View style={styles.expensesAndShiftsContainer}>
-        <SectionList
-          sections={sectionListData}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) =>
-            item.dataType === "Expense" ? (
-              <ExpenseCard expense={item} />
-            ) : (
-              <ShiftCard shift={item} />
-            )
-          }
-          renderSectionHeader={({ section: { title } }) => (
-            <Text style={styles.header}>{title}</Text>
-          )}
-        />
+        {sectionListData && (
+          <SectionList
+            sections={sectionListData}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) =>
+              item.dataType === "Expense" ? (
+                <ExpenseCard expense={item} />
+              ) : (
+                <ShiftCard shift={item} />
+              )
+            }
+            renderSectionHeader={({ section: { title } }) => (
+              <Text style={styles.header}>{title}</Text>
+            )}
+          />
+        )}
       </View>
     </AppScreen>
   );
