@@ -82,6 +82,7 @@ export const RevenuesScreen = () => {
             loadRevenuesData();
           }}
           loading={loading}
+          disabled={!showMonthPicker}
         >
           Calculate
         </Button>

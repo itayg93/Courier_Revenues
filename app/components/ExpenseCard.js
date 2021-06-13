@@ -3,8 +3,12 @@ import { StyleSheet, View, Text } from "react-native";
 import { Divider } from "react-native-paper";
 
 import { AppColors, AppSpacing, AppSizes } from "../config";
+import { NoDataFoundCard } from "../components/NoDataFoundCard";
 
 export const ExpenseCard = ({ expense }) => {
+  if (expense.message) {
+    return <NoDataFoundCard />;
+  }
   return (
     <View style={styles.container}>
       {/** date */}

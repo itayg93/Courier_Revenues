@@ -158,9 +158,8 @@ export const saveExpense = (
     });
 };
 
-export const fetchExpenses = async (
+export const fetchExpensesByTimeInMillis = async (
   userUid,
-  setLoading,
   fromTimeInMillis,
   tillTimeInMillis
 ) => {
@@ -192,7 +191,6 @@ export const fetchExpenses = async (
     });
     return expensesList;
   } catch (error) {
-    setLoading(false);
     console.log(error);
   }
 };
@@ -303,9 +301,8 @@ export const saveShift = async (
     });
 };
 
-export const fetchShifts = async (
+export const fetchShiftsByTimeInMillis = async (
   userUid,
-  setLoading,
   fromTimeInMillis,
   tillTimeInMillis
 ) => {
@@ -349,6 +346,31 @@ export const fetchShifts = async (
     });
     return shiftsList;
   } catch (error) {
+    console.log(error);
+  }
+};
+
+// stats
+
+export const fetchStatsData = async (
+  userUid,
+  fromTimeInMillis,
+  tillTimeInMillis,
+  setLoading
+) => {
+  try {
+    var expenses = await fetchExpensesByTimeInMillis(
+      userUid,
+      fromTimeInMillis,
+      tillTimeInMillis
+    );
+    var shifts = await fetchShiftsByTimeInMillis(
+      userUid,
+      fromTimeInMillis,
+      tillTimeInMillis
+    );
+    return { expenses, shifts };
+  } catch (error) {
     setLoading(false);
     console.log(error);
   }
@@ -361,24 +383,17 @@ export const fetchRevenuesData = async (
   selectedMonthIndex,
   setLoading
 ) => {
-  var expenses = await fetchExpensesByMonth(
-    userUid,
-    selectedMonthIndex,
-    setLoading
-  );
-  var shifts = await fetchShiftsByMonth(
-    userUid,
-    selectedMonthIndex,
-    setLoading
-  );
-  return { expenses, shifts };
+  try {
+    var expenses = await fetchExpensesByMonth(userUid, selectedMonthIndex);
+    var shifts = await fetchShiftsByMonth(userUid, selectedMonthIndex);
+    return { expenses, shifts };
+  } catch (error) {
+    setLoading(false);
+    console.log(error);
+  }
 };
 
-export const fetchExpensesByMonth = async (
-  userUid,
-  selectedMonth,
-  setLoading
-) => {
+export const fetchExpensesByMonth = async (userUid, selectedMonth) => {
   try {
     var expensesList = [];
     var querySnapshot = await firebase
@@ -406,16 +421,11 @@ export const fetchExpensesByMonth = async (
     });
     return expensesList;
   } catch (error) {
-    setLoading(false);
     console.log(error);
   }
 };
 
-export const fetchShiftsByMonth = async (
-  userUid,
-  selectedMonth,
-  setLoading
-) => {
+export const fetchShiftsByMonth = async (userUid, selectedMonth) => {
   try {
     var shiftsList = [];
     var querySnapshot = await firebase
@@ -455,7 +465,6 @@ export const fetchShiftsByMonth = async (
     });
     return shiftsList;
   } catch (error) {
-    setLoading(false);
     console.log(error);
   }
 };

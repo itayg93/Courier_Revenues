@@ -4,8 +4,12 @@ import { Divider } from "react-native-paper";
 
 import { AppColors, AppSpacing, AppSizes } from "../config";
 import { formatTime } from "../util";
+import { NoDataFoundCard } from "./NoDataFoundCard";
 
 export const ShiftCard = ({ shift }) => {
+  if (shift.message) {
+    return <NoDataFoundCard />;
+  }
   return (
     <View style={styles.container}>
       {/** date and time */}

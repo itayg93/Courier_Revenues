@@ -6,9 +6,7 @@ import { AppScreen } from "../components/AppScreen";
 import { DatesSelection } from "../components/DatesSelection";
 import { ExpenseCard } from "../components/ExpenseCard";
 import { ShiftCard } from "../components/ShiftCard";
-
-import { fetchExpenses, fetchShifts } from "../api/AppFirebseApi";
-
+import { fetchStatsData } from "../api/AppFirebseApi";
 import { AuthContext } from "../auth/AuthContext";
 
 export const StatsScreen = () => {
@@ -17,32 +15,20 @@ export const StatsScreen = () => {
 
   const [loading, setLoading] = useState(false);
   const [sectionListData, setSectionListData] = useState([]);
-  const [expenses, setExpenses] = useState([]);
-  const [shifts, setShifts] = useState([]);
 
-  const loadExpenses = async (fromTimeInMillis, tillTimeInMillis) => {
-    var newExpenses = await fetchExpenses(
-      uid,
-      setLoading,
-      fromTimeInMillis,
-      tillTimeInMillis
-    );
-    setExpenses(newExpenses);
-  };
-
-  const loadShifts = async (fromTimeInMillis, tillTimeInMillis) => {
-    var newShifts = await fetchShifts(
-      uid,
-      setLoading,
-      fromTimeInMillis,
-      tillTimeInMillis
-    );
-    setShifts(newShifts);
-  };
-
-  const loadData = async (from, till) => {
-    await loadExpenses(from, till);
-    await loadShifts(from, till);
+  const loadStatsData = async (from, till) => {
+    var data = await fetchStatsData(uid, from, till);
+    const { expenses, shifts } = data;
+    if (expenses.length == 0) {
+      expenses.push({
+        message: "No Data Found.",
+      });
+    }
+    if (shifts.length == 0) {
+      shifts.push({
+        message: "No Data Found.",
+      });
+    }
     setSectionListData([
       {
         title: "Expenses",
@@ -61,7 +47,7 @@ export const StatsScreen = () => {
       <DatesSelection
         loading={loading}
         setLoading={setLoading}
-        onPress={loadData}
+        onPress={loadStatsData}
       />
       {/** expenses and shifts list */}
       <View style={styles.expensesAndShiftsContainer}>
