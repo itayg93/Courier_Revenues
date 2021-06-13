@@ -26,7 +26,7 @@ export const RevenuesScreen = () => {
 
   const loadRevenuesData = async () => {
     var data = await fetchRevenuesData(uid, selectedMonthIndex + 1, setLoading);
-    const { expenses, shifts } = data;
+    const { userProfile, expenses, shifts } = data;
     setLoading(false);
   };
 

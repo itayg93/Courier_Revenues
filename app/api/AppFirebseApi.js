@@ -384,9 +384,10 @@ export const fetchRevenuesData = async (
   setLoading
 ) => {
   try {
+    var userProfile = await fetchUserProfile(userUid);
     var expenses = await fetchExpensesByMonth(userUid, selectedMonthIndex);
     var shifts = await fetchShiftsByMonth(userUid, selectedMonthIndex);
-    return { expenses, shifts };
+    return { userProfile, expenses, shifts };
   } catch (error) {
     setLoading(false);
     console.log(error);
