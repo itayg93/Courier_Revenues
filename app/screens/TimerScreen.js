@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { StyleSheet, View, Text } from "react-native";
-import { Button, Provider } from "react-native-paper";
+import { Provider, IconButton } from "react-native-paper";
 
 import { AppColors, AppSpacing, AppSizes } from "../config";
 import { AppScreen } from "../components/AppScreen";
@@ -13,18 +13,10 @@ export const TimerScreen = () => {
   const { user } = useContext(AuthContext);
   const { uid } = user;
 
-  const {
-    timer,
-    active,
-    paused,
-    handleStart,
-    handlePause,
-    handleResume,
-    handleReset,
-  } = useTimer(0);
+  const { timer, active, paused, handleStart, handlePause, handleResume } =
+    useTimer(0);
 
   const [loading, setLoading] = useState(false);
-
   const [showSaveDialog, setShowSaveDialog] = useState(false);
 
   return (
@@ -37,51 +29,22 @@ export const TimerScreen = () => {
         {/** timer buttons */}
         <View style={styles.timerbuttonsContainer}>
           {!active && !paused ? (
-            <Button
-              style={styles.timerBtn}
-              mode="contained"
-              onPress={handleStart}
-            >
-              Start
-            </Button>
+            <IconButton icon="play" size={30} onPress={handleStart} />
           ) : paused ? (
-            <Button
-              style={styles.timerBtn}
-              mode="contained"
-              onPress={handlePause}
-            >
-              Pause
-            </Button>
+            <IconButton icon="pause" size={30} onPress={handlePause} />
           ) : (
-            <Button
-              style={styles.timerBtn}
-              mode="contained"
-              onPress={handleResume}
-            >
-              Resume
-            </Button>
+            <IconButton icon="play" size={30} onPress={handleResume} />
           )}
-          <Button
-            style={styles.timerBtn}
-            mode="contained"
-            onPress={handleReset}
+          <IconButton
+            icon="content-save"
+            size={30}
+            onPress={() => {
+              handlePause();
+              setShowSaveDialog(true);
+            }}
             disabled={!active}
-          >
-            Reset
-          </Button>
+          />
         </View>
-        {/** save shift */}
-        <Button
-          style={styles.saveBtn}
-          mode="contained"
-          onPress={() => {
-            handlePause();
-            setShowSaveDialog(true);
-          }}
-          disabled={!active}
-        >
-          Save
-        </Button>
         <SaveShiftDialog
           uid={uid}
           timer={timer}
@@ -112,11 +75,7 @@ const styles = StyleSheet.create({
   },
   timerbuttonsContainer: {
     flexDirection: "row",
-  },
-  timerBtn: {
-    marginHorizontal: AppSpacing.s,
-  },
-  saveBtn: {
-    marginTop: AppSpacing.xl,
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
