@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View, Text } from "react-native";
 
 import { AppSpacing } from "../config";
 import { AppScreen } from "../components/AppScreen";
@@ -15,9 +15,15 @@ export const RevenuesScreen = () => {
 
   const [selectedMonthIndex, setSelectedMonthIndex] = useState();
 
+  const [data, setData] = useState(0);
+
   const loadRevenuesData = async () => {
-    var data = await fetchRevenuesData(uid, selectedMonthIndex + 1, setLoading);
-    const { userProfile, expenses, shifts } = data;
+    var fetchedData = await fetchRevenuesData(
+      uid,
+      selectedMonthIndex + 1,
+      setLoading
+    );
+    setData(fetchedData);
     setLoading(false);
   };
 
@@ -30,6 +36,7 @@ export const RevenuesScreen = () => {
           setLoading={setLoading}
           onPress={loadRevenuesData}
         />
+        <Text>{data}</Text>
       </ScrollView>
     </AppScreen>
   );

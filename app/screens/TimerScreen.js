@@ -14,7 +14,7 @@ export const TimerScreen = () => {
   const { uid } = user;
 
   const { timer, active, paused, handleStart, handlePause, handleResume } =
-    useTimer(0);
+    useTimer(9856);
 
   const [loading, setLoading] = useState(false);
   const [showSaveDialog, setShowSaveDialog] = useState(false);
