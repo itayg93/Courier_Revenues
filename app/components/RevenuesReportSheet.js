@@ -14,116 +14,155 @@ export const RevenuesReportSheet = ({ data }) => {
 
   return (
     <View style={styles.container}>
-      {/** shifts and time */}
-      <List.Accordion
-        style={styles.accordion}
-        title="General"
-        expanded={generalExpanded}
-        onPress={() => setGeneralExpanded(!generalExpanded)}
-      >
-        <View style={styles.rowWrapper}>
-          <Text>Shifts:</Text>
-          <Text>{data.totalAmountOfShifts}</Text>
-        </View>
-        <Divider style={styles.divider} />
-        <View style={styles.rowWrapper}>
-          <Text>Time:</Text>
-          <Text>{formatTime(data.totalTimeInSeconds)}</Text>
-        </View>
-      </List.Accordion>
+      <View style={styles.accordionContainer}>
+        {/** shifts and time */}
+        <List.Accordion
+          style={styles.accordion}
+          title="General"
+          titleStyle={styles.accordionTitle}
+          expanded={generalExpanded}
+          onPress={() => setGeneralExpanded(!generalExpanded)}
+        >
+          <View style={styles.rowWrapper}>
+            <Text style={styles.title}>Shifts:</Text>
+            <Text style={styles.data}>{data.totalAmountOfShifts}</Text>
+          </View>
+          <Divider style={styles.divider} />
+          <View style={styles.rowWrapper}>
+            <Text style={styles.title}>Time:</Text>
+            <Text style={styles.data}>
+              {formatTime(data.totalTimeInSeconds)}
+            </Text>
+          </View>
+        </List.Accordion>
+      </View>
       {/** taxes */}
-      <List.Accordion
-        style={styles.accordion}
-        title="Taxes"
-        expanded={taxesExpanded}
-        onPress={() => setTaxesExpanded(!taxesExpanded)}
-      >
-        <View style={styles.rowWrapper}>
-          <Text>Company Fee:</Text>
-          <Text>{data.totalCommissionFee.toFixed(2) + " ₪"}</Text>
-        </View>
-        <Divider style={styles.divider} />
-        <View style={styles.rowWrapper}>
-          <Text>National insurance:</Text>
-          <Text>{data.totalNationalInsurance.toFixed(2) + " ₪"}</Text>
-        </View>
-        <Divider style={styles.divider} />
-        <View style={styles.rowWrapper}>
-          <Text>Income tax:</Text>
-          <Text>{data.totalIncomeTax.toFixed(2) + " ₪"}</Text>
-        </View>
-      </List.Accordion>
+      <View style={styles.accordionContainer}>
+        <List.Accordion
+          style={styles.accordion}
+          title="Taxes"
+          titleStyle={styles.accordionTitle}
+          expanded={taxesExpanded}
+          onPress={() => setTaxesExpanded(!taxesExpanded)}
+        >
+          <View style={styles.rowWrapper}>
+            <Text style={styles.title}>Company Fee:</Text>
+            <Text style={styles.data}>
+              {data.totalCommissionFee.toFixed(2) + " ₪"}
+            </Text>
+          </View>
+          <Divider style={styles.divider} />
+          <View style={styles.rowWrapper}>
+            <Text style={styles.title}>National insurance:</Text>
+            <Text style={styles.data}>
+              {data.totalNationalInsurance.toFixed(2) + " ₪"}
+            </Text>
+          </View>
+          <Divider style={styles.divider} />
+          <View style={styles.rowWrapper}>
+            <Text style={styles.title}>Income tax:</Text>
+            <Text style={styles.data}>
+              {data.totalIncomeTax.toFixed(2) + " ₪"}
+            </Text>
+          </View>
+        </List.Accordion>
+      </View>
       {/** expenses */}
-      <List.Accordion
-        style={styles.accordion}
-        title="Expenses"
-        expanded={expensesExpanded}
-        onPress={() => setExpensesExpanded(!expensesExpanded)}
-      >
-        <View style={styles.rowWrapper}>
-          <Text>Monthly insurances:</Text>
-          <Text>{data.totalInsurancesPerMonth + " ₪"}</Text>
-        </View>
-        <Divider style={styles.divider} />
-        <View style={styles.rowWrapper}>
-          <Text>Fuel:</Text>
-          <Text>{data.totalFuel.toFixed(2) + " ₪"}</Text>
-        </View>
-        <Divider style={styles.divider} />
-        <View style={styles.rowWrapper}>
-          <Text>Maintenance:</Text>
-          <Text>{data.totalMaintenance.toFixed(2) + " ₪"}</Text>
-        </View>
-        <Divider style={styles.divider} />
-        <View style={styles.rowWrapper}>
-          <Text>Equipment:</Text>
-          <Text>{data.totalEquipment.toFixed(2) + " ₪"}</Text>
-        </View>
-        <Divider style={styles.divider} />
-        <View style={styles.rowWrapper}>
-          <Text>Other:</Text>
-          <Text>{data.totalOther.toFixed(2) + " ₪"}</Text>
-        </View>
-      </List.Accordion>
+      <View style={styles.accordionContainer}>
+        <List.Accordion
+          style={styles.accordion}
+          title="Expenses"
+          titleStyle={styles.accordionTitle}
+          expanded={expensesExpanded}
+          onPress={() => setExpensesExpanded(!expensesExpanded)}
+        >
+          <View style={styles.rowWrapper}>
+            <Text style={styles.title}>Monthly insurances:</Text>
+            <Text style={styles.data}>
+              {data.totalInsurancesPerMonth + " ₪"}
+            </Text>
+          </View>
+          <Divider style={styles.divider} />
+          <View style={styles.rowWrapper}>
+            <Text style={styles.title}>Fuel:</Text>
+            <Text style={styles.data}>{data.totalFuel.toFixed(2) + " ₪"}</Text>
+          </View>
+          <Divider style={styles.divider} />
+          <View style={styles.rowWrapper}>
+            <Text style={styles.title}>Maintenance:</Text>
+            <Text style={styles.data}>
+              {data.totalMaintenance.toFixed(2) + " ₪"}
+            </Text>
+          </View>
+          <Divider style={styles.divider} />
+          <View style={styles.rowWrapper}>
+            <Text style={styles.title}>Equipment:</Text>
+            <Text style={styles.data}>
+              {data.totalEquipment.toFixed(2) + " ₪"}
+            </Text>
+          </View>
+          <Divider style={styles.divider} />
+          <View style={styles.rowWrapper}>
+            <Text style={styles.title}>Other:</Text>
+            <Text style={styles.data}>{data.totalOther.toFixed(2) + " ₪"}</Text>
+          </View>
+        </List.Accordion>
+      </View>
       {/** earnings */}
-      <List.Accordion
-        style={styles.accordion}
-        title="Earnings"
-        expanded={earningsExpanded}
-        onPress={() => setEarningsExpanded(!earningsExpanded)}
-      >
-        <View style={styles.rowWrapper}>
-          <Text>Wolt:</Text>
-          <Text>{data.totalWoltAfterCommission.toFixed(2) + " ₪"}</Text>
-        </View>
-        <Divider style={styles.divider} />
-        <View style={styles.rowWrapper}>
-          <Text>Credit tips:</Text>
-          <Text>{data.totalCreditTipsAfterCommission.toFixed(2) + " ₪"}</Text>
-        </View>
-        <Divider style={styles.divider} />
-        <View style={styles.rowWrapper}>
-          <Text>Cash tips:</Text>
-          <Text>{data.totalCashTips.toFixed(2) + " ₪"}</Text>
-        </View>
-      </List.Accordion>
+      <View style={styles.accordionContainer}>
+        <List.Accordion
+          style={styles.accordion}
+          title="Earnings"
+          titleStyle={styles.accordionTitle}
+          expanded={earningsExpanded}
+          onPress={() => setEarningsExpanded(!earningsExpanded)}
+        >
+          <View style={styles.rowWrapper}>
+            <Text style={styles.title}>Wolt:</Text>
+            <Text style={styles.data}>
+              {data.totalWoltAfterCommission.toFixed(2) + " ₪"}
+            </Text>
+          </View>
+          <Divider style={styles.divider} />
+          <View style={styles.rowWrapper}>
+            <Text style={styles.title}>Credit tips:</Text>
+            <Text style={styles.data}>
+              {data.totalCreditTipsAfterCommission.toFixed(2) + " ₪"}
+            </Text>
+          </View>
+          <Divider style={styles.divider} />
+          <View style={styles.rowWrapper}>
+            <Text style={styles.title}>Cash tips:</Text>
+            <Text style={styles.data}>
+              {data.totalCashTips.toFixed(2) + " ₪"}
+            </Text>
+          </View>
+        </List.Accordion>
+      </View>
       {/** net */}
-      <List.Accordion
-        style={styles.accordion}
-        title="Net"
-        expanded={netExpanded}
-        onPress={() => setNetExpanded(!netExpanded)}
-      >
-        <View style={styles.rowWrapper}>
-          <Text>Net earnings:</Text>
-          <Text>{data.netEarnings.toFixed(2) + " ₪"}</Text>
-        </View>
-        <Divider style={styles.divider} />
-        <View style={styles.rowWrapper}>
-          <Text>Hourly wage:</Text>
-          <Text>{data.avgHourlyWage.toFixed(2) + " ₪"}</Text>
-        </View>
-      </List.Accordion>
+      <View style={styles.accordionContainer}>
+        <List.Accordion
+          style={styles.accordion}
+          title="Net"
+          titleStyle={styles.accordionTitle}
+          expanded={netExpanded}
+          onPress={() => setNetExpanded(!netExpanded)}
+        >
+          <View style={styles.rowWrapper}>
+            <Text style={styles.title}>Net earnings:</Text>
+            <Text style={styles.data}>
+              {data.netEarnings.toFixed(2) + " ₪"}
+            </Text>
+          </View>
+          <Divider style={styles.divider} />
+          <View style={styles.rowWrapper}>
+            <Text style={styles.title}>Hourly wage:</Text>
+            <Text style={styles.data}>
+              {data.avgHourlyWage.toFixed(2) + " ₪"}
+            </Text>
+          </View>
+        </List.Accordion>
+      </View>
     </View>
   );
 };
@@ -131,12 +170,21 @@ export const RevenuesReportSheet = ({ data }) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: AppColors.white,
-    padding: AppSpacing.l,
+    padding: AppSpacing.m,
     borderRadius: AppSpacing.l,
-    marginVertical: AppSpacing.m,
+    marginTop: AppSpacing.m,
+  },
+  accordionContainer: {
+    backgroundColor: AppColors.light,
+    padding: AppSpacing.m,
+    borderRadius: AppSpacing.l,
+    marginBottom: AppSpacing.s,
   },
   accordion: {
-    backgroundColor: AppColors.white,
+    backgroundColor: AppColors.light,
+  },
+  accordionTitle: {
+    color: AppColors.primary,
   },
   rowWrapper: {
     flexDirection: "row",
@@ -149,7 +197,7 @@ const styles = StyleSheet.create({
     fontSize: AppSizes.m,
     fontWeight: "bold",
   },
-  text: {
+  data: {
     fontSize: AppSizes.m,
   },
 });
