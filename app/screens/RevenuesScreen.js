@@ -1,29 +1,25 @@
 import React, { useState, useContext } from "react";
-import { ScrollView, StyleSheet, View, Text } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 
 import { AppSpacing } from "../config";
 import { AppScreen } from "../components/AppScreen";
 import { AuthContext } from "../auth/AuthContext";
 import { MonthPicker } from "../components/MonthPicker";
-import { fetchRevenuesData } from "../api/AppFirebseApi";
+import { xyz } from "../api/AppRevenuesApi";
+import { RevenuesReportSheet } from "../components/RevenuesReportSheet";
 
 export const RevenuesScreen = () => {
   const { user } = useContext(AuthContext);
   const { uid } = user;
 
   const [loading, setLoading] = useState(false);
+  const [data, setData] = useState();
 
   const [selectedMonthIndex, setSelectedMonthIndex] = useState();
 
-  const [data, setData] = useState(0);
-
   const loadRevenuesData = async () => {
-    var fetchedData = await fetchRevenuesData(
-      uid,
-      selectedMonthIndex + 1,
-      setLoading
-    );
-    setData(fetchedData);
+    var fData = await xyz(uid, selectedMonthIndex + 1, setLoading);
+    setData(fData);
     setLoading(false);
   };
 
@@ -36,7 +32,7 @@ export const RevenuesScreen = () => {
           setLoading={setLoading}
           onPress={loadRevenuesData}
         />
-        <Text>{data}</Text>
+        {data && <RevenuesReportSheet data={data} />}
       </ScrollView>
     </AppScreen>
   );

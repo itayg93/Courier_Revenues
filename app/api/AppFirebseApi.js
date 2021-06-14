@@ -1,4 +1,3 @@
-import React from "react";
 import firebase from "firebase";
 import "react-native-get-random-values";
 import { v4 as uuidv4 } from "uuid";
@@ -378,28 +377,6 @@ export const fetchStatsData = async (
 };
 
 // revenues
-
-const [totalTimeInSeconds, setTotalTimeInSeconds] = useState(0);
-const [totalTimeAsDecimalNumber, setTotalTimeAsDecimalNumber] = useState(0);
-const [totalCommissionFee, setTotalCommissionFee] = useState(0);
-const [userTaxPoints, setUserTaxPoints] = useState(0);
-const [totalNationalInsurance, setTotalNationalInsurance] = useState(0);
-const [totalIncomeTax, setTotalIncomeTax] = useState(0);
-const [totalInsurancesPerMonth, setTotalInsurancesPerMonth] = useState(0);
-const [totalFuel, setTotalFuel] = useState(0);
-const [totalMaintenance, setTotalMaintenance] = useState(0);
-const [totalEquipment, setTotalEquipment] = useState(0);
-const [totalOther, setTotalOther] = useState(0);
-const [totalWolt, setTotalWolt] = useState(0);
-const [totalWoltAfterCommission, setTotalWoltAfterCommission] = useState(0);
-const [totalCreditTips, setTotalCreditTips] = useState(0);
-const [totalCreditTipsAfterCommission, setTotalCreditTipsAfterCommission] =
-  useState(0);
-const [totalCashTips, setTotalCashTips] = useState(0);
-const [totalEarningsForTaxCalculation, setTotalEarningsForTaxCalculation] =
-  useState(0);
-const [netEarnings, setNetEarnings] = useState(0);
-const [avgHourlyWage, setAvgHourlyWage] = useState(0);
 
 export const fetchRevenuesData = async (
   userUid,
