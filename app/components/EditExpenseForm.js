@@ -7,7 +7,7 @@ import * as Yup from "yup";
 
 import { AppColors, AppSpacing } from "../config";
 
-import { saveExpense } from "../api/AppFirebseApi";
+import { saveExpense } from "../database/AppFirebseApi";
 
 const validationSchema = Yup.object().shape({
   expenseCost: Yup.number().required().label("Cost"),

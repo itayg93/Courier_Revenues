@@ -4,7 +4,7 @@ import { Avatar, IconButton } from "react-native-paper";
 
 import { AppColors, AppSpacing, AppSizes } from "../config";
 
-import { logout } from "../api/AppFirebseApi";
+import { logout } from "../database/AppFirebseApi";
 
 export const ProfileCard = ({ displayName, email }) => {
   return (

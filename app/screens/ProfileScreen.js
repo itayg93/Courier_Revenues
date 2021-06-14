@@ -9,7 +9,7 @@ import { InitializingScreen } from "../screens/InitializingScreen";
 import { ProfileCard } from "../components/ProfileCard";
 import { ProfileForm } from "../components/ProfileForm";
 
-import { fetchUserProfile, updateUserProfile } from "../api/AppFirebseApi";
+import { fetchUserProfile, updateUserProfile } from "../database/AppFirebseApi";
 
 import { AuthContext } from "../auth/AuthContext";
 

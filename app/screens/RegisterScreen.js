@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import { AppColors, AppSpacing, AppSizes } from "../config";
 import { AppScreen } from "../components/AppScreen";
 
-import { register } from "../api/AppFirebseApi";
+import { register } from "../database/AppFirebseApi";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().label("Name"),

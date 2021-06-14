@@ -6,7 +6,7 @@ import { AppScreen } from "../components/AppScreen";
 import { DatesSelection } from "../components/DatesSelection";
 import { ExpenseCard } from "../components/ExpenseCard";
 import { ShiftCard } from "../components/ShiftCard";
-import { fetchStatsData } from "../api/AppFirebseApi";
+import { fetchStatsData } from "../database/AppFirebseApi";
 import { AuthContext } from "../auth/AuthContext";
 
 export const StatsScreen = () => {

@@ -5,7 +5,7 @@ import { AppSpacing } from "../config";
 import { AppScreen } from "../components/AppScreen";
 import { AuthContext } from "../auth/AuthContext";
 import { MonthPicker } from "../components/MonthPicker";
-import { xyz } from "../api/AppRevenuesApi";
+import { calculateRevenuesData } from "../database/AppRevenuesApi";
 import { RevenuesReportSheet } from "../components/RevenuesReportSheet";
 
 export const RevenuesScreen = () => {
@@ -13,13 +13,17 @@ export const RevenuesScreen = () => {
   const { uid } = user;
 
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState();
+  const [revenuesData, setRevenuesData] = useState();
 
   const [selectedMonthIndex, setSelectedMonthIndex] = useState();
 
   const loadRevenuesData = async () => {
-    var fData = await xyz(uid, selectedMonthIndex + 1, setLoading);
-    setData(fData);
+    var fetchedRevenuesData = await calculateRevenuesData(
+      uid,
+      selectedMonthIndex + 1,
+      setLoading
+    );
+    setRevenuesData(fetchedRevenuesData);
     setLoading(false);
   };
 
@@ -32,7 +36,7 @@ export const RevenuesScreen = () => {
           setLoading={setLoading}
           onPress={loadRevenuesData}
         />
-        {data && <RevenuesReportSheet data={data} />}
+        {revenuesData && <RevenuesReportSheet data={revenuesData} />}
       </ScrollView>
     </AppScreen>
   );

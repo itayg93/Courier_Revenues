@@ -5,7 +5,7 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 
 import { AppColors, AppSpacing } from "../config";
-import { saveShift } from "../api/AppFirebseApi";
+import { saveShift } from "../database/AppFirebseApi";
 
 const validationSchema = Yup.object().shape({
   deliveries: Yup.number().required().label("Deliveries"),

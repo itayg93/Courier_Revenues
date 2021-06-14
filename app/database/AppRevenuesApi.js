@@ -1,7 +1,7 @@
-import { fetchRevenuesData } from "../api/AppFirebseApi";
+import { fetchRevenuesData } from "./AppFirebseApi";
 import { formatTime } from "../util";
 
-export const xyz = async (uid, month, setLoading) => {
+export const calculateRevenuesData = async (uid, month, setLoading) => {
   var totalAmountOfShifts = 0;
   var totalTimeInSeconds = 0;
   var totalTimeAsDecimalNumber = 0;
