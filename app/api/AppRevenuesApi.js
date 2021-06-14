@@ -20,8 +20,10 @@ export const xyz = async (uid, month, setLoading) => {
   var totalCreditTipsAfterCommission = 0;
   var totalCashTips = 0;
   var totalEarningsForTaxCalculation = 0;
+  var grossEarnings = 0;
+  var grossAvgHourlyWage = 0;
   var netEarnings = 0;
-  var avgHourlyWage = 0;
+  var netAvgHourlyWage = 0;
 
   var data = await fetchRevenuesData(uid, month, setLoading);
   const { userProfile, expenses, shifts } = data;
@@ -41,6 +43,12 @@ export const xyz = async (uid, month, setLoading) => {
       currentShift.creditTipsAfterVatAndCommission;
     totalCashTips += currentShift.cashTips;
   });
+  // calculate gross earnings
+  grossEarnings = totalWolt + totalCreditTips + totalCashTips;
+  //
+  totalTimeAsDecimalNumber = formatTime(totalTimeInSeconds, true);
+  // calculate horly wage
+  grossAvgHourlyWage = grossEarnings / totalTimeAsDecimalNumber;
   // calculate expenses
   expenses.forEach((currentExpense) => {
     switch (currentExpense.type) {
@@ -142,10 +150,12 @@ export const xyz = async (uid, month, setLoading) => {
   // format time in seconds as number
   totalTimeAsDecimalNumber = formatTime(totalTimeInSeconds, true);
   // calculate horly wage
-  avgHourlyWage = netEarnings / totalTimeAsDecimalNumber;
+  netAvgHourlyWage = netEarnings / totalTimeAsDecimalNumber;
   return {
     totalAmountOfShifts,
     totalTimeInSeconds,
+    grossEarnings,
+    grossAvgHourlyWage,
     totalCommissionFee,
     totalNationalInsurance,
     totalIncomeTax,
@@ -158,6 +168,6 @@ export const xyz = async (uid, month, setLoading) => {
     totalCreditTipsAfterCommission,
     totalCashTips,
     netEarnings,
-    avgHourlyWage,
+    netAvgHourlyWage,
   };
 };

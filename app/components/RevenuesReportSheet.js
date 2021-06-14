@@ -7,6 +7,7 @@ import { formatTime } from "../util";
 
 export const RevenuesReportSheet = ({ data }) => {
   const [generalExpanded, setGeneralExpanded] = useState(true);
+  const [grossExpanded, setGrossExpanded] = useState(true);
   const [taxesExpanded, setTaxesExpanded] = useState(true);
   const [expensesExpanded, setExpensesExpanded] = useState(true);
   const [earningsExpanded, setEarningsExpanded] = useState(true);
@@ -14,8 +15,8 @@ export const RevenuesReportSheet = ({ data }) => {
 
   return (
     <View style={styles.container}>
+      {/** shifts, time */}
       <View style={styles.accordionContainer}>
-        {/** shifts and time */}
         <List.Accordion
           style={styles.accordion}
           title="General"
@@ -32,6 +33,30 @@ export const RevenuesReportSheet = ({ data }) => {
             <Text style={styles.title}>Time:</Text>
             <Text style={styles.data}>
               {formatTime(data.totalTimeInSeconds)}
+            </Text>
+          </View>
+        </List.Accordion>
+      </View>
+      {/** gross */}
+      <View style={styles.accordionContainer}>
+        <List.Accordion
+          style={styles.accordion}
+          title="Gross"
+          titleStyle={styles.accordionTitle}
+          expanded={grossExpanded}
+          onPress={() => setGrossExpanded(!grossExpanded)}
+        >
+          <View style={styles.rowWrapper}>
+            <Text style={styles.title}>Earnings:</Text>
+            <Text style={styles.data}>
+              {data.grossEarnings.toFixed(2) + " ₪"}
+            </Text>
+          </View>
+          <Divider style={styles.divider} />
+          <View style={styles.rowWrapper}>
+            <Text style={styles.title}>Hourly wage:</Text>
+            <Text style={styles.data}>
+              {data.grossAvgHourlyWage.toFixed(2) + " ₪"}
             </Text>
           </View>
         </List.Accordion>
@@ -77,7 +102,7 @@ export const RevenuesReportSheet = ({ data }) => {
           onPress={() => setExpensesExpanded(!expensesExpanded)}
         >
           <View style={styles.rowWrapper}>
-            <Text style={styles.title}>Monthly insurances:</Text>
+            <Text style={styles.title}>Insurances:</Text>
             <Text style={styles.data}>
               {data.totalInsurancesPerMonth + " ₪"}
             </Text>
@@ -149,7 +174,7 @@ export const RevenuesReportSheet = ({ data }) => {
           onPress={() => setNetExpanded(!netExpanded)}
         >
           <View style={styles.rowWrapper}>
-            <Text style={styles.title}>Net earnings:</Text>
+            <Text style={styles.title}>Earnings:</Text>
             <Text style={styles.data}>
               {data.netEarnings.toFixed(2) + " ₪"}
             </Text>
@@ -158,7 +183,7 @@ export const RevenuesReportSheet = ({ data }) => {
           <View style={styles.rowWrapper}>
             <Text style={styles.title}>Hourly wage:</Text>
             <Text style={styles.data}>
-              {data.avgHourlyWage.toFixed(2) + " ₪"}
+              {data.netAvgHourlyWage.toFixed(2) + " ₪"}
             </Text>
           </View>
         </List.Accordion>
@@ -185,6 +210,7 @@ const styles = StyleSheet.create({
   },
   accordionTitle: {
     color: AppColors.primary,
+    fontWeight: "bold",
   },
   rowWrapper: {
     flexDirection: "row",
